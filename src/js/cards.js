@@ -4,6 +4,8 @@
  * Now uses centralized GameState
  */
 
+import { RESOURCES, CARDS } from './constants.js';
+import { CARD_CONFIGS } from './cardConfigs.js';
 import { addResource, subtractResource, getResource } from './resources.js';
 import { addLogEntry } from './utils.js';
 import { gameState } from './state.js';
@@ -13,276 +15,69 @@ console.log('🃏 Cards module loaded');
 
 // Card registry (DOM elements)
 const cards = {
-  extractor: null,  // T01 Proton Cutter
-  sensor: null,     // T02 Ore Scanner
-  storage: null,    // T03 Cargo Bay
-  processor: null,  // T04 Refinery Module
-  reactor: null,    // Basic Reactor
-  engine: null,     // Basic Thruster
-  habitat: null,    // Basic Quarters
-  lab: null         // Basic Lab
+  [CARDS.EXTRACTOR]: null,  // T01 Proton Cutter
+  [CARDS.SENSOR]: null,     // T02 Ore Scanner
+  [CARDS.STORAGE]: null,    // T03 Cargo Bay
+  [CARDS.PROCESSOR]: null,  // T04 Refinery Module
+  [CARDS.REACTOR]: null,    // Basic Reactor
+  [CARDS.ENGINE]: null,     // Basic Thruster
+  [CARDS.HABITAT]: null,    // Basic Quarters
+  [CARDS.LAB]: null         // Basic Lab
 };
 
-// Card configurations for all 8 core cards
-const CARD_CONFIGS = {
-  extractor: {
-    id: 'extractor',
-    name: 'PROTON CUTTER',
-    tier: 0,
-    icon: '⚡',
-    counterLabel: 'ORE MINED',
-    counterValue: 0,
-    button: 'FIRE',
-    secondaryCounters: '<span>+1/click</span>',
-    progress: 0,
-    // Phase 2: Production automation
-    inputRequirements: {},        // Base producer - no inputs
-    outputs: ['ore'],             // Produces ore
-    baseRate: 1.0,                 // 1 ore per second at Tier 1
-    // Phase 3: Tier upgrades
-    upgradeCosts: {
-      1: { ore: 50 }              // Cost to upgrade from Tier 0 to Tier 1
-    },
-    tierBenefits: {
-      1: {
-        automation: true,
-        rateMultiplier: 1.0,
-        description: 'Unlocks automated production'
-      }
-    }
-  },
-  sensor: {
-    id: 'sensor',
-    name: 'ORE SCANNER',
-    tier: 0,
-    icon: '📡',
-    counterLabel: 'SCANS',
-    counterValue: 0,
-    button: 'SCAN',
-    secondaryCounters: '<span>Reveals info</span>',
-    progress: 0,
-    // Phase 2: Production automation
-    inputRequirements: {},        // Base producer
-    outputs: ['data'],            // Produces data
-    baseRate: 0.5,                 // 0.5 data per second at Tier 1
-    // Phase 3: Tier upgrades
-    upgradeCosts: {
-      1: { ore: 40, data: 10 }
-    },
-    tierBenefits: {
-      1: {
-        automation: true,
-        rateMultiplier: 1.0,
-        description: 'Unlocks automated scanning'
-      }
-    }
-  },
-  storage: {
-    id: 'storage',
-    name: 'CARGO BAY',
-    tier: 0,
-    icon: '📦',
-    counterLabel: 'CAPACITY',
-    counterValue: '0/1000',
-    secondaryCounters: '<span>Passive</span>',
-    progress: 0,
-    // Phase 2: Passive card - no production
-    inputRequirements: {},
-    outputs: [],
-    baseRate: 0,
-    // Phase 3: Tier upgrades
-    upgradeCosts: {
-      1: { ore: 30, metal: 10 }
-    },
-    tierBenefits: {
-      1: {
-        automation: false,
-        capacityBonus: 1000,
-        description: 'Increases storage capacity'
-      }
-    }
-  },
-  processor: {
-    id: 'processor',
-    name: 'REFINERY',
-    tier: 1,
-    icon: '⚙️',
-    counterLabel: 'METAL',
-    counterValue: 0,
-    button: 'REFINE',
-    secondaryCounters: '<span>10 Ore → 1 Metal</span>',
-    progress: 0,
-    // Phase 2: Production automation
-    inputRequirements: { ore: 5 },  // Requires 5 ore per cycle
-    outputs: ['metal'],            // Produces metal
-    baseRate: 0.4,                  // 0.4 metal per second (2 metal per 5 seconds)
-    // Phase 3: Tier upgrades (already Tier 1, so starts at 2)
-    upgradeCosts: {
-      2: { metal: 100, energy: 50 }
-    },
-    tierBenefits: {
-      2: {
-        automation: true,
-        rateMultiplier: 1.5,
-        description: 'Increases refining efficiency by 50%'
-      }
-    }
-  },
-  reactor: {
-    id: 'reactor',
-    name: 'BASIC REACTOR',
-    tier: 0,
-    icon: '⚛️',
-    counterLabel: 'ENERGY',
-    counterValue: 0,
-    button: 'GENERATE',
-    secondaryCounters: '<span>+5/click</span>',
-    progress: 0,
-    // Phase 2: Production automation
-    inputRequirements: {},        // Base producer
-    outputs: ['energy'],          // Produces energy
-    baseRate: 5.0,                 // 5 energy per second
-    // Phase 3: Tier upgrades
-    upgradeCosts: {
-      1: { ore: 60, metal: 20 }
-    },
-    tierBenefits: {
-      1: {
-        automation: true,
-        rateMultiplier: 1.0,
-        description: 'Unlocks automated energy generation'
-      }
-    }
-  },
-  engine: {
-    id: 'engine',
-    name: 'BASIC THRUSTER',
-    tier: 0,
-    icon: '🚀',
-    counterLabel: 'SPEED',
-    counterValue: '0 m/s',
-    secondaryCounters: '<span>Passive</span>',
-    progress: 0,
-    // Phase 2: Passive card - no production
-    inputRequirements: {},
-    outputs: [],
-    baseRate: 0,
-    // Phase 3: Tier upgrades
-    upgradeCosts: {
-      1: { metal: 50, energy: 100 }
-    },
-    tierBenefits: {
-      1: {
-        automation: false,
-        speedBonus: 50,
-        description: 'Increases ship speed'
-      }
-    }
-  },
-  habitat: {
-    id: 'habitat',
-    name: 'BASIC QUARTERS',
-    tier: 0,
-    icon: '🏠',
-    counterLabel: 'CREW',
-    counterValue: '10',
-    secondaryCounters: '<span>Morale: 100%</span>',
-    progress: 100,
-    // Phase 2: Production automation
-    inputRequirements: {},        // Base producer
-    outputs: ['biomass'],         // Produces biomass
-    baseRate: 0.2,                 // 0.2 biomass per second
-    // Phase 3: Tier upgrades
-    upgradeCosts: {
-      1: { ore: 45, biomass: 20 }
-    },
-    tierBenefits: {
-      1: {
-        automation: true,
-        rateMultiplier: 1.0,
-        description: 'Unlocks automated biomass production'
-      }
-    }
-  },
-  lab: {
-    id: 'lab',
-    name: 'BASIC LAB',
-    tier: 0,
-    icon: '🔬',
-    counterLabel: 'SCIENCE',
-    counterValue: 0,
-    button: 'RESEARCH',
-    secondaryCounters: '<span>+1/click</span>',
-    progress: 0,
-    // Phase 2: Production automation
-    inputRequirements: { data: 2, energy: 1 },  // Requires data and energy
-    outputs: ['science'],         // Produces science
-    baseRate: 0.3,                 // 0.3 science per second
-    // Phase 3: Tier upgrades
-    upgradeCosts: {
-      1: { data: 50, energy: 30, science: 10 }
-    },
-    tierBenefits: {
-      1: {
-        automation: true,
-        rateMultiplier: 1.0,
-        description: 'Unlocks automated research'
-      }
-    }
-  }
-};
+// Note: CARD_CONFIGS imported from cardConfigs.js
 
 // Handle card button clicks
 function handleCardClick(cardId, buttonAction) {
   switch (cardId) {
-    case 'extractor':
+    case CARDS.EXTRACTOR:
       // FIRE - Mine ore
-      addResource('ore', 1);
+      addResource(RESOURCES.ORE, 1);
       gameState.incrementProduction(cardId);
-      updateCardCounter(cards.extractor, gameState.getCard(cardId).production);
+      updateCardCounter(cards[CARDS.EXTRACTOR], getResource(RESOURCES.ORE));
       addLogEntry('Proton Cutter: +1 Ore');
-      flashCard(cards.extractor);
+      flashCard(cards[CARDS.EXTRACTOR]);
       break;
 
-    case 'sensor':
+    case CARDS.SENSOR:
       // SCAN - Perform scan
       gameState.incrementProduction(cardId);
-      updateCardCounter(cards.sensor, gameState.getCard(cardId).production);
+      updateCardCounter(cards[CARDS.SENSOR], getResource(RESOURCES.DATA));
       addLogEntry(`Ore Scanner: Scan #${gameState.getCard(cardId).production} complete`);
-      flashCard(cards.sensor);
+      flashCard(cards[CARDS.SENSOR]);
       break;
 
-    case 'processor':
+    case CARDS.PROCESSOR:
       // REFINE - Convert 10 Ore → 1 Metal
-      if (getResource('ore') >= 10) {
-        subtractResource('ore', 10);
-        addResource('metal', 1);
+      if (getResource(RESOURCES.ORE) >= 10) {
+        subtractResource(RESOURCES.ORE, 10);
+        addResource(RESOURCES.METAL, 1);
         gameState.incrementProduction(cardId);
-        updateCardCounter(cards.processor, gameState.getCard(cardId).production);
+        updateCardCounter(cards[CARDS.PROCESSOR], getResource(RESOURCES.METAL));
         addLogEntry('Refinery: -10 Ore, +1 Metal');
-        flashCard(cards.processor);
+        flashCard(cards[CARDS.PROCESSOR]);
       } else {
         addLogEntry('Refinery: Insufficient Ore (need 10)');
-        flashCard(cards.processor, 'error');
+        flashCard(cards[CARDS.PROCESSOR], 'error');
       }
       break;
 
-    case 'reactor':
+    case CARDS.REACTOR:
       // GENERATE - Produce energy
-      addResource('energy', 5);
+      addResource(RESOURCES.ENERGY, 5);
       gameState.incrementProduction(cardId);
-      updateCardCounter(cards.reactor, gameState.getCard(cardId).production);
+      updateCardCounter(cards[CARDS.REACTOR], getResource(RESOURCES.ENERGY));
       addLogEntry('Reactor: +5 Energy');
-      flashCard(cards.reactor);
+      flashCard(cards[CARDS.REACTOR]);
       break;
 
-    case 'lab':
+    case CARDS.LAB:
       // RESEARCH - Produce science
-      addResource('science', 1);
+      addResource(RESOURCES.SCIENCE, 1);
       gameState.incrementProduction(cardId);
-      updateCardCounter(cards.lab, gameState.getCard(cardId).production);
+      updateCardCounter(cards[CARDS.LAB], getResource(RESOURCES.SCIENCE));
       addLogEntry('Lab: +1 Science');
-      flashCard(cards.lab);
+      flashCard(cards[CARDS.LAB]);
       break;
   }
 }
@@ -479,6 +274,10 @@ export function updateIOIndicators(cardId) {
 
   // For each connected neighbor, highlight the appropriate indicators
   connectedNeighbors.forEach(neighbor => {
+    // Get neighbor's card configuration
+    const neighborConfig = CARD_CONFIGS[neighbor.id];
+    if (!neighborConfig) return;
+
     // Determine the direction from this card to the neighbor
     const rowDiff = neighbor.row - card.row;
     const colDiff = neighbor.col - card.col;
@@ -497,10 +296,13 @@ export function updateIOIndicators(cardId) {
 
       // Check if this indicator should be connected
       if (indicatorPosition === position) {
-        // Check if the resource types match
-        if (indicatorDirection === 'output' && neighbor.inputRequirements && neighbor.inputRequirements[indicatorResource]) {
+        // Check if the resource types match using neighbor's config
+        const neighborInputs = neighborConfig.inputRequirements || {};
+        const neighborOutputs = neighborConfig.outputs || [];
+
+        if (indicatorDirection === 'output' && neighborInputs[indicatorResource]) {
           indicator.classList.add('connected');
-        } else if (indicatorDirection === 'input' && neighbor.outputs && neighbor.outputs.includes(indicatorResource)) {
+        } else if (indicatorDirection === 'input' && neighborOutputs.includes(indicatorResource)) {
           indicator.classList.add('connected');
         }
       }
@@ -513,25 +315,25 @@ export function initCards() {
   console.log('🃏 Initializing card system...');
 
   // Create all 8 core cards
-  cards.extractor = createCard(CARD_CONFIGS.extractor);
-  cards.sensor = createCard(CARD_CONFIGS.sensor);
-  cards.storage = createCard(CARD_CONFIGS.storage);
-  cards.processor = createCard(CARD_CONFIGS.processor);
-  cards.reactor = createCard(CARD_CONFIGS.reactor);
-  cards.engine = createCard(CARD_CONFIGS.engine);
-  cards.habitat = createCard(CARD_CONFIGS.habitat);
-  cards.lab = createCard(CARD_CONFIGS.lab);
+  cards[CARDS.EXTRACTOR] = createCard(CARD_CONFIGS[CARDS.EXTRACTOR]);
+  cards[CARDS.SENSOR] = createCard(CARD_CONFIGS[CARDS.SENSOR]);
+  cards[CARDS.STORAGE] = createCard(CARD_CONFIGS[CARDS.STORAGE]);
+  cards[CARDS.PROCESSOR] = createCard(CARD_CONFIGS[CARDS.PROCESSOR]);
+  cards[CARDS.REACTOR] = createCard(CARD_CONFIGS[CARDS.REACTOR]);
+  cards[CARDS.ENGINE] = createCard(CARD_CONFIGS[CARDS.ENGINE]);
+  cards[CARDS.HABITAT] = createCard(CARD_CONFIGS[CARDS.HABITAT]);
+  cards[CARDS.LAB] = createCard(CARD_CONFIGS[CARDS.LAB]);
 
   // Place cards on grid in starting layout (2 rows of 4)
   const layout = [
-    { card: cards.extractor, row: 0, col: 0 },
-    { card: cards.sensor, row: 0, col: 1 },
-    { card: cards.storage, row: 0, col: 2 },
-    { card: cards.processor, row: 0, col: 3 },
-    { card: cards.reactor, row: 1, col: 0 },
-    { card: cards.engine, row: 1, col: 1 },
-    { card: cards.habitat, row: 1, col: 2 },
-    { card: cards.lab, row: 1, col: 3 }
+    { card: cards[CARDS.EXTRACTOR], row: 0, col: 0 },
+    { card: cards[CARDS.SENSOR], row: 0, col: 1 },
+    { card: cards[CARDS.STORAGE], row: 0, col: 2 },
+    { card: cards[CARDS.PROCESSOR], row: 0, col: 3 },
+    { card: cards[CARDS.REACTOR], row: 1, col: 0 },
+    { card: cards[CARDS.ENGINE], row: 1, col: 1 },
+    { card: cards[CARDS.HABITAT], row: 1, col: 2 },
+    { card: cards[CARDS.LAB], row: 1, col: 3 }
   ];
 
   let placedCount = 0;
@@ -546,9 +348,9 @@ export function initCards() {
   return cards;
 }
 
-// Expose for debugging and state.js access
+// Expose for debugging and backwards compatibility
 window.cards = cards;
 window.handleCardClick = handleCardClick;
-window.CARD_CONFIGS = CARD_CONFIGS;  // Phase 3: Needed for upgrade logic
+window.CARD_CONFIGS = CARD_CONFIGS;  // Backwards compatibility - prefer importing from cardConfigs.js
 
 export { cards, CARD_CONFIGS };

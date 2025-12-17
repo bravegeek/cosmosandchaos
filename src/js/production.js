@@ -3,6 +3,7 @@
  * Handles automatic resource production for placed, automated cards
  */
 
+import { EVENTS } from './constants.js';
 import { gameState } from './state.js';
 
 console.log('🏭 Production module loaded');
@@ -39,8 +40,8 @@ export function updateCardProduction(cardId, deltaTime) {
     const whole = Math.floor(gameState.cardAccumulators[cardId]);
     gameState.cardAccumulators[cardId] -= whole;
 
-    // Get output type (first output for now)
-    const outputType = card.outputs && card.outputs[0];
+    // Get output type from production rate (already configured in startAutomation)
+    const outputType = rate.resourceType;
     if (outputType) {
       // Add to global resources using accurate accumulator
       gameState.addResourceAccurate(outputType, whole);
@@ -49,7 +50,7 @@ export function updateCardProduction(cardId, deltaTime) {
       card.production += whole;
 
       // Emit production event
-      gameState.emit('card:produced', {
+      gameState.emit(EVENTS.CARD_PRODUCED, {
         cardId,
         resourceType: outputType,
         amount: whole,
@@ -80,11 +81,11 @@ export class ProductionLoop {
 
   setupListeners() {
     // Refresh cache when automation state might change
-    gameState.on('card:upgraded', () => this.refreshCache());
-    gameState.on('state:restored', () => this.refreshCache());
-    gameState.on('card:placed', () => this.refreshCache());
-    gameState.on('card:removed', () => this.refreshCache());
-    
+    gameState.on(EVENTS.CARD_UPGRADED, () => this.refreshCache());
+    gameState.on(EVENTS.STATE_RESTORED, () => this.refreshCache());
+    gameState.on(EVENTS.CARD_PLACED, () => this.refreshCache());
+    gameState.on(EVENTS.CARD_REMOVED, () => this.refreshCache());
+
     // Initial population
     this.refreshCache();
   }

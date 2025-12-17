@@ -3,6 +3,12 @@
  * Single source of truth for all game data with event-driven architecture
  */
 
+import { RESOURCES, CARDS, EVENTS, LED_STATUS, EFFICIENCY_THRESHOLDS } from './constants.js';
+import { CARD_CONFIGS as IMPORTED_CARD_CONFIGS } from './cardConfigs.js';
+
+// Helper to get CARD_CONFIGS (supports test mocking via window.CARD_CONFIGS)
+const getCardConfigs = () => (typeof window !== 'undefined' && window.CARD_CONFIGS) || IMPORTED_CARD_CONFIGS;
+
 console.log('🎮 State module loaded');
 
 /**
@@ -19,19 +25,19 @@ class GameState {
 
     // Resources
     this.resources = {
-      ore: 0,
-      metal: 0,
-      energy: 0,
-      science: 0,
-      data: 0,        // Phase 2: New resource type
-      biomass: 0,     // Phase 2: New resource type
-      nanites: 0      // Phase 2: New resource type
+      [RESOURCES.ORE]: 0,
+      [RESOURCES.METAL]: 0,
+      [RESOURCES.ENERGY]: 0,
+      [RESOURCES.SCIENCE]: 0,
+      [RESOURCES.DATA]: 0,        // Phase 2: New resource type
+      [RESOURCES.BIOMASS]: 0,     // Phase 2: New resource type
+      [RESOURCES.NANITES]: 0      // Phase 2: New resource type
     };
 
     // Card state - Each card tracks its full state
     this.cards = {
-      extractor: {
-        id: 'extractor',
+      [CARDS.EXTRACTOR]: {
+        id: CARDS.EXTRACTOR,
         placed: false,
         row: null,
         col: null,
@@ -41,8 +47,8 @@ class GameState {
         tier: 0,
         ioIndicators: []
       },
-      sensor: {
-        id: 'sensor',
+      [CARDS.SENSOR]: {
+        id: CARDS.SENSOR,
         placed: false,
         row: null,
         col: null,
@@ -52,8 +58,8 @@ class GameState {
         tier: 0,
         ioIndicators: []
       },
-      storage: {
-        id: 'storage',
+      [CARDS.STORAGE]: {
+        id: CARDS.STORAGE,
         placed: false,
         row: null,
         col: null,
@@ -63,8 +69,8 @@ class GameState {
         tier: 0,
         ioIndicators: []
       },
-      processor: {
-        id: 'processor',
+      [CARDS.PROCESSOR]: {
+        id: CARDS.PROCESSOR,
         placed: false,
         row: null,
         col: null,
@@ -74,8 +80,8 @@ class GameState {
         tier: 1,
         ioIndicators: []
       },
-      reactor: {
-        id: 'reactor',
+      [CARDS.REACTOR]: {
+        id: CARDS.REACTOR,
         placed: false,
         row: null,
         col: null,
@@ -85,8 +91,8 @@ class GameState {
         tier: 0,
         ioIndicators: []
       },
-      engine: {
-        id: 'engine',
+      [CARDS.ENGINE]: {
+        id: CARDS.ENGINE,
         placed: false,
         row: null,
         col: null,
@@ -96,8 +102,8 @@ class GameState {
         tier: 0,
         ioIndicators: []
       },
-      habitat: {
-        id: 'habitat',
+      [CARDS.HABITAT]: {
+        id: CARDS.HABITAT,
         placed: false,
         row: null,
         col: null,
@@ -107,8 +113,8 @@ class GameState {
         tier: 0,
         ioIndicators: []
       },
-      lab: {
-        id: 'lab',
+      [CARDS.LAB]: {
+        id: CARDS.LAB,
         placed: false,
         row: null,
         col: null,
@@ -130,25 +136,25 @@ class GameState {
 
     // Resource accumulators for fractional tracking
     this.resourceAccumulators = {
-      ore: 0,
-      metal: 0,
-      energy: 0,
-      science: 0,
-      data: 0,
-      biomass: 0,
-      nanites: 0
+      [RESOURCES.ORE]: 0,
+      [RESOURCES.METAL]: 0,
+      [RESOURCES.ENERGY]: 0,
+      [RESOURCES.SCIENCE]: 0,
+      [RESOURCES.DATA]: 0,
+      [RESOURCES.BIOMASS]: 0,
+      [RESOURCES.NANITES]: 0
     };
 
     // Card production accumulators
     this.cardAccumulators = {
-      extractor: 0,
-      sensor: 0,
-      storage: 0,
-      processor: 0,
-      reactor: 0,
-      engine: 0,
-      habitat: 0,
-      lab: 0
+      [CARDS.EXTRACTOR]: 0,
+      [CARDS.SENSOR]: 0,
+      [CARDS.STORAGE]: 0,
+      [CARDS.PROCESSOR]: 0,
+      [CARDS.REACTOR]: 0,
+      [CARDS.ENGINE]: 0,
+      [CARDS.HABITAT]: 0,
+      [CARDS.LAB]: 0
     };
 
     // Production rates for each card
@@ -201,7 +207,7 @@ class GameState {
       this.resourceAccumulators[type] -= whole;
 
       // Emit event for display updates
-      this.emit('resource:changed', {
+      this.emit(EVENTS.RESOURCE_CHANGED, {
         type,
         total: this.resources[type],
         accumulated: this.resourceAccumulators[type]
@@ -244,7 +250,7 @@ class GameState {
     this.resources[type] += amount;
 
     // Emit event
-    this.emit('resource:changed', {
+    this.emit(EVENTS.RESOURCE_CHANGED, {
       type,
       amount,
       total: this.resources[type]
@@ -281,7 +287,7 @@ class GameState {
     this.resources[type] = Math.max(0, this.resources[type] - amount);
 
     // Emit event
-    this.emit('resource:changed', {
+    this.emit(EVENTS.RESOURCE_CHANGED, {
       type,
       amount: -amount,
       total: this.resources[type]
@@ -343,11 +349,18 @@ class GameState {
     // Enable automation
     card.automated = true;
 
+    // Get card configuration to access baseRate and outputs
+    const CARD_CONFIGS = getCardConfigs();
+    const cardConfig = CARD_CONFIGS[cardId];
+    if (!cardConfig) {
+      console.error(`No configuration found for card: ${cardId}`);
+      return false;
+    }
+
     // Initialize production rate from card config
-    // Note: This assumes card has baseRate defined in CARD_CONFIGS
-    const baseRate = card.baseRate || 1.0;
-    const outputs = card.outputs || [];
-    const resourceType = outputs[0] || 'ore';
+    const baseRate = cardConfig.baseRate || 1.0;
+    const outputs = cardConfig.outputs || [];
+    const resourceType = outputs[0] || RESOURCES.ORE;
 
     this.productionRates[cardId] = {
       resourceType,
@@ -360,7 +373,7 @@ class GameState {
     // Calculate initial efficiency
     this.calculateCardEfficiency(cardId);
 
-    console.log(`✓ Automation started for ${cardId}`);
+    console.log(`✓ Automation started for ${cardId} - producing ${resourceType} at ${baseRate}/sec`);
     return true;
   }
 
@@ -393,6 +406,10 @@ class GameState {
       return 0;
     }
 
+    // Get card configuration (fallback to card state for tests/edge cases)
+    const CARD_CONFIGS = getCardConfigs();
+    const cardConfig = CARD_CONFIGS[cardId];
+
     // Prepare efficiency object
     if (!this.efficiencies[cardId]) {
       this.efficiencies[cardId] = {
@@ -405,17 +422,19 @@ class GameState {
     const efficiencyObj = this.efficiencies[cardId];
 
     // Base producer check (no inputs required)
-    if (!card.inputRequirements || Object.keys(card.inputRequirements).length === 0) {
+    // Try config first, fall back to card state for tests
+    const inputRequirements = cardConfig?.inputRequirements || card.inputRequirements || {};
+    if (!inputRequirements || Object.keys(inputRequirements).length === 0) {
       efficiencyObj.value = 1.0;
       efficiencyObj.bottleneck = null;
       efficiencyObj.isBaseProducer = true;
       efficiencyObj.lastCalculated = performance.now();
-      
+
       return 1.0;
     }
 
     // Calculate ratio for each input
-    const ratios = Object.entries(card.inputRequirements).map(([type, required]) => {
+    const ratios = Object.entries(inputRequirements).map(([type, required]) => {
       const available = this.getTrueResourceValue(type);
       return Math.min(available / required, 1.0);
     });
@@ -423,7 +442,7 @@ class GameState {
     // Efficiency = minimum ratio (bottleneck determines overall efficiency)
     const efficiency = Math.min(...ratios);
     const bottleneckIndex = ratios.indexOf(efficiency);
-    const bottleneck = Object.keys(card.inputRequirements)[bottleneckIndex];
+    const bottleneck = Object.keys(inputRequirements)[bottleneckIndex];
 
     // Update existing efficiency object (recycle)
     efficiencyObj.value = efficiency;
@@ -439,7 +458,7 @@ class GameState {
     }
 
     // Emit event
-    this.emit('card:efficiency:changed', {
+    this.emit(EVENTS.CARD_EFFICIENCY_CHANGED, {
       cardId,
       efficiency: efficiencyObj
     });
@@ -456,12 +475,12 @@ class GameState {
     const efficiency = this.efficiencies[cardId];
 
     if (!efficiency || efficiency.isBaseProducer) {
-      return 'green';
+      return LED_STATUS.GREEN;
     }
 
-    if (efficiency.value >= 0.80) return 'green';
-    if (efficiency.value >= 0.40) return 'yellow';
-    return 'red';
+    if (efficiency.value >= EFFICIENCY_THRESHOLDS.HIGH) return LED_STATUS.GREEN;
+    if (efficiency.value >= EFFICIENCY_THRESHOLDS.MEDIUM) return LED_STATUS.YELLOW;
+    return LED_STATUS.RED;
   }
 
   // ===== CARD MUTATIONS =====
@@ -479,7 +498,7 @@ class GameState {
 
     this.cards[cardId].production++;
 
-    this.emit('card:production', {
+    this.emit(EVENTS.CARD_PRODUCTION, {
       cardId,
       production: this.cards[cardId].production
     });
@@ -512,7 +531,7 @@ class GameState {
     this.cards[cardId].col = col;
 
     // Emit event
-    this.emit('card:placed', {
+    this.emit(EVENTS.CARD_PLACED, {
       cardId,
       row,
       col
@@ -539,7 +558,7 @@ class GameState {
     this.cards[cardId].col = null;
 
     // Emit event
-    this.emit('card:removed', { cardId });
+    this.emit(EVENTS.CARD_REMOVED, { cardId });
 
     console.log(`Card ${cardId} removed from grid`);
     return true;
@@ -568,10 +587,9 @@ class GameState {
       return false;
     }
 
-    // Import CARD_CONFIGS to check upgrade costs
-    // Note: This assumes CARD_CONFIGS is available globally or imported
-    // For now, we'll check if the card has upgrade configuration
-    const cardConfig = window.CARD_CONFIGS?.[cardId];
+    // Get card configuration to check upgrade costs
+    const CARD_CONFIGS = getCardConfigs();
+    const cardConfig = CARD_CONFIGS[cardId];
     if (!cardConfig || !cardConfig.upgradeCosts) {
       console.warn(`No upgrade configuration for ${cardId}`);
       return false;
@@ -608,7 +626,8 @@ class GameState {
       return false;
     }
 
-    const cardConfig = window.CARD_CONFIGS?.[cardId];
+    const CARD_CONFIGS = getCardConfigs();
+    const cardConfig = CARD_CONFIGS[cardId];
     const nextTier = card.tier + 1;
     const upgradeCost = cardConfig.upgradeCosts[nextTier];
     const tierBenefit = cardConfig.tierBenefits[nextTier];
@@ -634,7 +653,7 @@ class GameState {
     }
 
     // Emit upgrade event
-    this.emit('card:upgraded', {
+    this.emit(EVENTS.CARD_UPGRADED, {
       cardId,
       newTier: nextTier,
       automated: card.automated,
@@ -734,10 +753,12 @@ class GameState {
 
       // Phase 2: Restore accumulators (backwards compatible)
       this.resourceAccumulators = data.resourceAccumulators || {
-        ore: 0, metal: 0, energy: 0, science: 0, data: 0, biomass: 0, nanites: 0
+        [RESOURCES.ORE]: 0, [RESOURCES.METAL]: 0, [RESOURCES.ENERGY]: 0, [RESOURCES.SCIENCE]: 0,
+        [RESOURCES.DATA]: 0, [RESOURCES.BIOMASS]: 0, [RESOURCES.NANITES]: 0
       };
       this.cardAccumulators = data.cardAccumulators || {
-        extractor: 0, sensor: 0, storage: 0, processor: 0, reactor: 0, engine: 0, habitat: 0, lab: 0
+        [CARDS.EXTRACTOR]: 0, [CARDS.SENSOR]: 0, [CARDS.STORAGE]: 0, [CARDS.PROCESSOR]: 0,
+        [CARDS.REACTOR]: 0, [CARDS.ENGINE]: 0, [CARDS.HABITAT]: 0, [CARDS.LAB]: 0
       };
       this.productionRates = data.productionRates || {};
 
@@ -753,7 +774,7 @@ class GameState {
       });
 
       // Emit restore event
-      this.emit('state:restored', { data });
+      this.emit(EVENTS.STATE_RESTORED, { data });
 
       console.log('✓ State restored from save');
       return true;
@@ -822,7 +843,7 @@ class GameState {
     this.grid = fresh.grid;
     this.meta = fresh.meta;
 
-    this.emit('state:reset', {});
+    this.emit(EVENTS.STATE_RESET, {});
     console.log('✓ State reset to initial values');
   }
 }

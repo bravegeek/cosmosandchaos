@@ -4,6 +4,8 @@
  * Now uses centralized GameState
  */
 
+import { RESOURCES, EVENTS } from './constants.js';
+import { CARD_CONFIGS } from './cardConfigs.js';
 import { gameState } from './state.js';
 
 console.log('💎 Resources module loaded');
@@ -41,7 +43,7 @@ function cacheResourceElements() {
 
 // Update all resource displays
 function updateAllDisplays() {
-  ['ore', 'metal', 'energy', 'science'].forEach(type => {
+  [RESOURCES.ORE, RESOURCES.METAL, RESOURCES.ENERGY, RESOURCES.SCIENCE].forEach(type => {
     updateResourceDisplay(type);
   });
 }
@@ -54,7 +56,7 @@ export function initResources() {
   cacheResourceElements();
 
   // Subscribe to state changes for automatic UI updates
-  gameState.on('resource:changed', ({ type, total }) => {
+  gameState.on(EVENTS.RESOURCE_CHANGED, ({ type, total }) => {
     updateResourceDisplay(type);
   });
 
@@ -106,7 +108,7 @@ export function isResourceDiscovered(resourceType) {
   const cards = gameState.cards;
   for (const cardId in cards) {
     const card = cards[cardId];
-    const cardConfig = window.CARD_CONFIGS?.[cardId];
+    const cardConfig = CARD_CONFIGS[cardId];
 
     if (cardConfig && cardConfig.outputs && cardConfig.outputs.includes(resourceType)) {
       if (card.production > 0) {
@@ -116,7 +118,7 @@ export function isResourceDiscovered(resourceType) {
   }
 
   // Default to discovered for basic resources (ore, energy are always known)
-  if (resourceType === 'ore' || resourceType === 'energy') {
+  if (resourceType === RESOURCES.ORE || resourceType === RESOURCES.ENERGY) {
     return true;
   }
 
@@ -134,12 +136,12 @@ window.isResourceDiscovered = isResourceDiscovered;  // Phase 3 - needed by disp
 window.testResources = function() {
   console.log('🧪 Testing resource system...');
   console.log('Adding 100 ore...');
-  addResource('ore', 100);
+  addResource(RESOURCES.ORE, 100);
   console.log('Adding 50 metal...');
-  addResource('metal', 50);
+  addResource(RESOURCES.METAL, 50);
   console.log('Adding 75 energy...');
-  addResource('energy', 75);
+  addResource(RESOURCES.ENERGY, 75);
   console.log('Adding 25 science...');
-  addResource('science', 25);
+  addResource(RESOURCES.SCIENCE, 25);
   console.log('✓ Test complete! Check the Data Stack sidebar.');
 };

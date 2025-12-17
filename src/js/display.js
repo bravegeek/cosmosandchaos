@@ -3,6 +3,8 @@
  * Manages visual updates including Status LEDs and throttled counters
  */
 
+import { EVENTS, UPDATE_RATES, LED_STATUS } from './constants.js';
+import { CARD_CONFIGS } from './cardConfigs.js';
 import { gameState } from './state.js';
 import { formatNumber } from './utils.js';
 
@@ -16,9 +18,9 @@ export class DisplayUpdateManager {
 
     // Configurable update rates (Hz) - Phase 7 will make this more dynamic
     this.updateRates = {
-      primary: 2,     // 2Hz (every 500ms) - High priority
-      secondary: 1,   // 1Hz (every 1000ms) - Medium priority
-      tertiary: 0.5   // 0.5Hz (every 2000ms) - Low priority
+      primary: UPDATE_RATES.PRIMARY,     // 2Hz (every 500ms) - High priority
+      secondary: UPDATE_RATES.SECONDARY,   // 1Hz (every 1000ms) - Medium priority
+      tertiary: UPDATE_RATES.TERTIARY   // 0.5Hz (every 2000ms) - Low priority
     };
 
     // Track last update time for each card
@@ -43,11 +45,11 @@ export class DisplayUpdateManager {
     this.isRunning = true;
     this.lastFrame = performance.now();
     this.tick();
-    
+
     // Subscribe to events
-    gameState.on('card:efficiency:changed', this.handleEfficiencyChange);
-    gameState.on('resource:changed', this.handleResourceChange);
-    gameState.on('card:produced', this.handleCardProduced);  // Phase 3 - T008
+    gameState.on(EVENTS.CARD_EFFICIENCY_CHANGED, this.handleEfficiencyChange);
+    gameState.on(EVENTS.RESOURCE_CHANGED, this.handleResourceChange);
+    gameState.on(EVENTS.CARD_PRODUCED, this.handleCardProduced);  // Phase 3 - T008
 
     // Initial resource display update
     this.updateResourceDisplay();
@@ -66,9 +68,9 @@ export class DisplayUpdateManager {
     }
     
     // Unsubscribe events
-    gameState.off('card:efficiency:changed', this.handleEfficiencyChange);
-    gameState.off('resource:changed', this.handleResourceChange);
-    gameState.off('card:produced', this.handleCardProduced);  // Phase 3 - T008
+    gameState.off(EVENTS.CARD_EFFICIENCY_CHANGED, this.handleEfficiencyChange);
+    gameState.off(EVENTS.RESOURCE_CHANGED, this.handleResourceChange);
+    gameState.off(EVENTS.CARD_PRODUCED, this.handleCardProduced);  // Phase 3 - T008
 
     console.log('✓ Display loop stopped');
   }
@@ -162,10 +164,10 @@ export class DisplayUpdateManager {
     if (!led) return;
 
     const status = gameState.getCardStatusLED(cardId);
-    
+
     // Reset classes
-    led.classList.remove('green', 'yellow', 'red');
-    
+    led.classList.remove(LED_STATUS.GREEN, LED_STATUS.YELLOW, LED_STATUS.RED);
+
     // Add new status class
     led.classList.add(status);
   }
@@ -196,15 +198,26 @@ export class DisplayUpdateManager {
 
   /**
    * Event Handler: Resource Changed (T070)
-   * @param {Object} data { resourceType, amount, total }
+   * @param {Object} data { type, amount, total }
    */
   handleResourceChange(data) {
     // Update the specific resource display
-    const element = document.querySelector(`.resource-value[data-resource="${data.resourceType}"]`);
+    const element = document.querySelector(`.resource-value[data-resource="${data.type}"]`);
     if (element) {
-      const value = gameState.getTrueResourceValue(data.resourceType);
+      const value = gameState.getTrueResourceValue(data.type);
       element.textContent = formatNumber(Math.floor(value));
     }
+
+    // Also update card counters for cards that produce this resource
+    Object.keys(gameState.cards).forEach(cardId => {
+      const card = gameState.cards[cardId];
+      const cardConfig = window.CARD_CONFIGS?.[cardId];
+
+      // Check if this card produces the changed resource
+      if (cardConfig && cardConfig.outputs && cardConfig.outputs.includes(data.type)) {
+        this.updateCardCounter(cardId, data.total);
+      }
+    });
   }
 
   /**
@@ -213,7 +226,9 @@ export class DisplayUpdateManager {
    * @param {Object} data { cardId, resourceType, amount, totalProduced }
    */
   handleCardProduced(data) {
-    this.updateCardCounter(data.cardId, data.totalProduced);
+    // Update card counter to show current resource amount, not production count
+    const currentAmount = gameState.getResource(data.resourceType);
+    this.updateCardCounter(data.cardId, currentAmount);
   }
 
   /**
@@ -252,7 +267,7 @@ export class DisplayUpdateManager {
    */
   checkUpgradeProgress(cardId) {
     const card = gameState.cards[cardId];
-    const cardConfig = window.CARD_CONFIGS?.[cardId];
+    const cardConfig = CARD_CONFIGS[cardId];
 
     if (!card || !cardConfig) return;
 
