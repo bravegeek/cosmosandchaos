@@ -1,7 +1,7 @@
 # Cosmos and Chaos - Game Design Document
 
-**Last Updated:** 2025-12-05
-**Status:** Pre-Implementation Design Phase
+**Last Updated:** 2025-12-25
+**Status:** Pre-Implementation Design Phase (Post-Reconciliation)
 
 ---
 
@@ -47,6 +47,143 @@ Based on strategic review (2025-12-03), the 48 technologies are organized into *
 - **Tier 3:** **The Fork.** The card splits into a Wonder Variant or a Dread Variant.
 - **Standard Play:** User chooses ONE. The card evolves into that variant.
 - **Witness Play:** User builds BOTH. Requires finding space for a second card on the grid.
+
+### Tier-Unlock Progression System
+
+Players unlock cards and tier upgrades sequentially:
+
+1. **Starting State**: Extractor T0 placed on grid (manual clicking only)
+2. **Unlocks 1-7**: Unlock the remaining 7 core cards at Tier 0
+3. **Unlocks 8+**: Unlock tier upgrades (T0→T1→T2→T3A/B)
+4. **Tier 1 Unlocks**: Automation activates (all cards auto-produce at T1)
+5. **Tier 3 Fork**: Choose Wonder (T3A) or Dread (T3B) upgrade path per card
+
+**Key Principle**: "Unlocking" means unlocking tier upgrades, not collecting duplicate cards.
+
+### Grid Specifications
+
+- **Total Grid**: 10 columns × 10 rows (100 total slots)
+- **Visible Viewport**: 5 columns × 4 rows (20 visible slots at once)
+- **Navigation**: Drag to pan or edge scrolling to explore full 10×10 grid
+- **Starting View**: Centered on grid middle, Extractor at position (5,5)
+
+---
+
+## Resource Production Flow
+
+The game features **6 core resources** introduced through converters before pure generators unlock:
+
+### Resource Chain Progression
+
+```
+TIER 0 (Manual Only):
+  Ore (Extractor T0 - manual click)
+
+TIER 1 (Automation Unlocks):
+  Ore → Metal (Processor T1)
+  Ore Burning → Energy (Reactor T1)
+  Energy → Data (Sensor T1)
+
+TIER 1+ (Multi-Input Converters):
+  Data + Energy → Science (Lab T1)
+  Energy → Biomass (Habitat T1)
+  Metal + Energy → Nanites (Engine T1)
+```
+
+### Resource Introduction Timeline
+
+| Time | Resource | Source | Card Unlock |
+|------|----------|--------|-------------|
+| 0:00 | Ore | Extractor T0 (manual) | Starting card |
+| 1:30 | Metal | Processor T1 | Unlock 1 |
+| 3:00 | Energy | Reactor T1 | Unlock 2 |
+| 5:00 | Data | Sensor T1 | Unlock 3 |
+| 7:00 | Science | Lab T1 (multi-input) | Unlock 4 |
+| 10:00 | Biomass | Habitat T1 | Unlock 5 |
+| 12:00 | Nanites | Engine T1 (multi-input) | Unlock 6 |
+
+### Science Production (Multi-Source Bootstrapping)
+
+**Primary**: Lab (Data + Energy → Science)
+- Tier 0: Manual "RESEARCH" button (+1 science per click)
+- Tier 1+: Auto-generates 0.3 science/sec
+
+**Secondary**: Sensor (Passive Discovery)
+- Tier 1+: Generates +0.1 science/sec as exploration byproduct
+
+**Tertiary**: Achievements & Milestones
+- First automation unlock: +10 science (one-time)
+- Chain Synergy Discovery: +25 science (one-time)
+- All 8 cards at Tier 1: +50 science (one-time)
+
+---
+
+## Chain Bonus System & Discovery
+
+### Pre-Discovery Phase (Tiers 0-1 Early Game)
+
+- Adjacency provides visual feedback only (I/O indicators light up)
+- No production bonuses from connections yet
+- Players learn spatial relationships organically
+
+### Discovery Milestone: "SYNERGY DISCOVERED!"
+
+**Trigger**: Player creates their first 3-card chain (e.g., [Extractor] → [Processor] → [Storage])
+
+**Timing**: Typically 5-12 minutes into gameplay (varies by player experimentation)
+
+**Discovery Event**:
+```
+"⚡ CHAIN SYNERGY DISCOVERED!
+
+Connected cards gain +10% output per connection.
+
+Your network is becoming more than the sum of its parts..."
+```
+
+**Immediate Effect**: Chain bonus system activates retroactively for all placed cards.
+
+### Chain Bonus Mechanics (Post-Discovery)
+
+**Base Formula**:
+```javascript
+chainBonus = numberOfConnections × 10%
+
+// Connection defined as:
+// - Adjacent card (N/S/E/W)
+// - AND I/O compatibility (output → input resource match)
+```
+
+**Example Network**:
+```
+[Extractor] → [Processor] → [Storage]
+     ↓
+ [Reactor]
+
+Extractor: 2 connections (Processor, Reactor) = +20% output
+Processor: 2 connections (Extractor, Storage) = +20% output
+Reactor: 1 connection (Extractor) = +10% output
+Storage: 1 connection (Processor) = +10% output
+```
+
+### Converter Completion Bonus
+
+**Special Mechanic**: Converter cards (cards that transform resources) get an additional +10% bonus when connected to BOTH:
+- Input supplier (provides required resource)
+- Output consumer (uses produced resource)
+
+**Example**:
+```
+[Extractor] → [Processor] → [Storage]
+
+Processor connections:
+- Input from Extractor: +10%
+- Output to Storage: +10%
+- Converter completion bonus: +10%
+Total: +30% for fully-connected converter
+```
+
+**Converter Cards**: Processor, Sensor, Habitat, Lab, Engine (any card with input→output transformation)
 
 ---
 
@@ -449,18 +586,34 @@ See Victory Conditions section above for T33, T34, and T33b.
 
 ## Card Connectivity & Adjacency
 
-### Wonder Path: "The Flow" (Adjacency & Harmonics)
-- **Rule:** Proximity = Connection.
-- **Visual:** If two compatible cards touch, the border between them changes color.
-- **Mechanic:** "Chain Bonus." Specific sequences (e.g., Mine → Refinery → Storage) create a "Resonance Chain."
-- **Effect:** +10% Output for every card in the chain. Encourages large, snake-like patterns.
+### Base Chain Bonus System (All Cards)
 
-### Dread Path: "The Leech" (Parasitic Adjacency)
-- **Rule:** Contact = Consumption.
-- **Visual:** Red borders appear between connected Dread cards.
-- **Mechanic:** "Parasitic Gain." Dread Generators receive massive output bonuses based on what they touch, but drain/damage the neighbor.
-- **Example:** Rift Miner gets +50% Speed if touching Habitat, but drains -1 Crew Morale/sec.
-- **Puzzle:** Surround high-output Dread machines with "sacrificial" buffers or high-regen Wonder cards.
+**Discovery**: Unlocks when player creates first 3-card chain (see "Chain Bonus System & Discovery" section above)
+
+**Universal Mechanic**:
+- +10% output per adjacent connection (N/S/E/W)
+- Connection requires I/O compatibility (output resource matches input resource)
+- Converters get additional +10% when connected to both supplier AND consumer
+- Encourages strategic grid placement and resource flow optimization
+
+**Visual Feedback**:
+- I/O indicators pulse between connected cards
+- Connection strength shown by border brightness/color
+- Chain length visible through cascading animations
+
+### Tier 3+ Alignment Enhancements
+
+**Wonder Path: "The Flow" (Harmonic Amplification)**
+- **Mechanic**: Tier 3+ Wonder cards can unlock "Harmonic Resonators"
+- **Effect**: Area-of-effect bonus (+5% chain bonus to all cards within 2 spaces)
+- **Visual**: Pulsing aura showing radius of effect
+- **Strategy**: Maximize network density, central hub placement
+
+**Dread Path: "The Leech" (Parasitic Adjacency)**
+- **Mechanic**: Tier 3+ Dread cards gain massive bonuses from consumption
+- **Effect**: +50% output when adjacent to specific card types, but drains neighbor resources
+- **Example**: Rift Extractor gets +50% speed if touching Habitat, but drains -1 Biomass/sec
+- **Strategy**: Use "sacrificial" cards as buffers, isolate high-output Dread cards from critical infrastructure
 
 ---
 

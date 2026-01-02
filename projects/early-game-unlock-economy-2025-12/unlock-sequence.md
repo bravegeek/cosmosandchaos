@@ -1,8 +1,15 @@
 # First 12 Card Unlock Sequence
 
+> **⚠️ SUPERSEDED**: This document describes a card-collection system that conflicts with the core singleton architecture.
+>
+> **See instead**: `unlock-sequence-RECONCILED.md` (2025-12-25)
+>
+> This file is kept for historical reference only.
+
 **Date**: 2025-12-17
 **Project**: Early Game Unlock Economy
 **Purpose**: Defines the specific progression of the first 12 unlockable cards
+**Status**: DEPRECATED - See RECONCILIATION.md for conflicts and resolution
 
 ---
 
