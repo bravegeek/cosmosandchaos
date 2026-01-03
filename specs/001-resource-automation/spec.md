@@ -91,7 +91,7 @@ As a player, I want to track different resource types (Ore, Energy, Data, etc.) 
 - **FR-002**: System MUST display status LEDs with three states: green (>80% efficiency), yellow (40-80%), red (<40%)
 - **FR-003**: Cards MUST be able to automatically produce resources without player interaction once placed on the grid
 - **FR-004**: System MUST display I/O indicators showing which resources a card produces and consumes
-- **FR-005**: System MUST track at least 5 distinct resource types: Ore, Energy, Data, Biomass, and Nanites
+- **FR-005**: System MUST track at least 6 distinct resource types: Ore, Metal, Energy, Data, Science, Biomass, and Nanites (Reconciled 2025-12-25)
 - **FR-006**: System MUST calculate efficiency based on available inputs versus required inputs
 - **FR-007**: System MUST persist resource values when cards are moved on the grid
 - **FR-008**: Counters MUST display numeric values with appropriate formatting (e.g., 1.2K, 3.4M for large numbers)
@@ -130,7 +130,7 @@ As a player, I want to track different resource types (Ore, Energy, Data, etc.) 
 - Browser supports requestAnimationFrame for efficient counter updates
 - Game will use a centralized state management system (GameState from Phase 1.5)
 - Resource production is time-based (per second) rather than tick-based
-- Initial implementation will focus on desktop (1920×1080 target resolution)
+- Initial implementation will focus on desktop (1920ï¿½1080 target resolution)
 - Cards can only produce resources when placed on the grid (not in deck/hand)
 
 ## Dependencies *(optional)*

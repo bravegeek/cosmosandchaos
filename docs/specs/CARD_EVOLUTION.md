@@ -1,7 +1,15 @@
 # Card Evolution Specifications
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-25 (Reconciliation Update)
 **Purpose:** Definitive reference for how each of the 8 core cards evolves from Tier 0 through Tier 5
+
+> **⚠️ RECONCILIATION UPDATE (2025-12-25)**:
+> - T0-T2 sections updated to match reconciled design
+> - All cards now start at Tier 0 (manual only)
+> - Tier 1 unlocks automation (universal rule)
+> - Resource chain: Ore → Metal → Energy → Data → Science → Biomass → Nanites
+> - Canonical names applied (see UPGRADE_COSTS.md)
+> - T3-T5 sections preserved as endgame design (to be validated during implementation)
 
 ---
 
@@ -50,20 +58,20 @@ Each card follows this progression:
 **Type:** Auto-Clicker
 
 **Functionality:**
-- **NEW:** Auto-fires every 2 seconds (0.5 Ore/sec)
+- **NEW:** Auto-fires every 1 second (1.0 Ore/sec)
 - **NEW:** Toggle switch: "Auto-Fire: ON/OFF"
 - Player can still manual click for +1 Ore bonus
-- **NEW:** Rate gauge appears: "0.5/sec"
+- **NEW:** Rate gauge appears: "1.0/sec"
 
 **Visual Changes:**
 - "FIRE" button shrinks to 60×30px
 - Toggle switch appears (top-right of body)
-- Rate counter: "+0.5 ORE/sec"
+- Rate counter: "+1.0 ORE/sec"
 - Icon remains: ⛏️
 
-**Audio:** Automated "tick" sound every 2 seconds
+**Audio:** Automated "tick" sound every second
 
-**Unlock Cost:** 100 Ore
+**Unlock Cost:** 50 Ore (Reconciled)
 
 ---
 
@@ -246,33 +254,51 @@ Mining caps at Tier 4. Endgame reality-bending is handled by Theoretical Physics
 
 ## 2. The Processor (Refining)
 
-### T0: (No Tier 0 Processor)
-Players start with raw ore collection only. Refining unlocked at Tier 1.
-
----
-
-### T1: Refinery Module → "Basic Smelter"
+### T0: Manual Smelting → "Basic Smelter"
 **Card Name:** Basic Smelter
 **Size:** 1×1
 **Type:** Manual Converter
 
 **Functionality:**
-- Player clicks "PROCESS" button
-- Converts 5 Ore → 2 Alloy (40% conversion rate)
-- Processing time: 12 seconds per batch
+- Player clicks "REFINE" button
+- Converts 5 Ore → 2 Metal (manual batch processing)
+- Processing time: ~3 seconds per batch
 - No automation
-- Queue: Can hold 10 batches in waiting
+- Must click to process each batch
 
 **Visual:**
-- Large "PROCESS" button
-- Recipe display: "5 ORE → 2 ALLOY"
-- Queue indicator: "3/10"
-- Secondary: "Efficiency: 100%" / "Time: 12s"
-- Icon: 🔥 Furnace
+- Large "REFINE" button
+- Recipe display: "5 ORE → 2 METAL"
+- Counter: "METAL: X"
+- Secondary: "Manual: 5 Ore → 2 Metal"
+- Icon: ⚙️ Furnace/Smelter
 
 **Audio:** Smelting whoosh
 
-**Unlock Cost:** 200 Ore
+**Unlock Cost:** 50 Ore (First unlock - introduces Metal resource)
+
+---
+
+### T1: Automated Smelting → "Auto-Smelter"
+**Card Name:** Auto-Smelter
+**Size:** 1×1
+**Type:** Auto-Converter
+
+**Functionality:**
+- **NEW:** Automatically processes ore → metal (0.4 metal/sec)
+- Consumes 1.0 ore/sec
+- Player can still manual click for bonus batch
+- No queue needed (continuous flow)
+
+**Visual Changes:**
+- "REFINE" button shrinks
+- Rate counter: "+0.4 METAL/sec"
+- Input requirement: "-1.0 ORE/sec"
+- Icon: ⚙️ Auto-Smelter
+
+**Audio:** Automated smelting hum
+
+**Unlock Cost:** 75 Ore + 20 Metal (Reconciled)
 
 ---
 
@@ -339,26 +365,27 @@ Higher tier refining folded into T29 "Grand Unification Theory" (Universal Matte
 
 ## 3. The Storage (Logistics)
 
-### T0: Cargo Bay I → "Bulk Hold"
-**Card Name:** Bulk Hold
-**Size:** 2×2 (Large from start - storage needs space)
+### T0: Basic Storage → "Cargo Bay"
+**Card Name:** Cargo Bay
+**Size:** 1×1
 **Type:** Passive Capacity
 
 **Functionality:**
-- Increases max storage capacity: 1,000 units (all resource types share pool)
+- Increases max storage capacity: +1,000 units (all resource types)
 - No filtering
 - No throughput limits
 - Basic counter display
+- Passive bonus (no production)
 
 **Visual:**
-- Large 📦 icon (80×80px on 2×2 card)
-- Primary: "247 / 1000" (current / max)
-- Secondary: "Fill: 25%" (visual bar)
-- No I/O indicators yet
+- Large 📦 icon
+- Primary: "CAP: +1000"
+- Secondary: "Passive +1000 cap"
+- No I/O indicators (passive utility)
 
 **Audio:** None (passive)
 
-**Unlock Cost:** Free (starting card)
+**Unlock Cost:** 150 Ore + 40 Metal (Third unlock typically)
 
 ---
 
@@ -1294,17 +1321,22 @@ Crew systems unlock at Tier 2 after initial automation established.
 
 ## Status Update
 
-**Completed:**
-- ✅ Extractor (T0 through T4)
-- ✅ Processor (T1 through T3)
-- ✅ Storage (T0 through T2 fork)
-- ✅ Reactor (T1 through T3 fork)
-- ✅ Engine (T1 through T2 fork + T5 Wonder)
-- ✅ Sensor (T0 through T3)
-- ✅ Habitat (T2 through T4 fork + Consciousness cards)
-- ✅ Lab (T1 through T4 fork)
+**Reconciliation Status (2025-12-25):**
+- ✅ Extractor (T0-T1 updated, T2-T4 preserved)
+- ✅ Processor (T0-T1 added/updated - now starts at T0, produces Metal)
+- ✅ Storage (T0 updated - no longer free starting card)
+- ⚠️ Reactor (T0-T3 preserved - needs validation for ore burning mechanic)
+- ⚠️ Engine (T1-T2 preserved as propulsion - **conflicts with Nanites converter in cardConfigs.js**)
+- ⚠️ Sensor (T0-T1 preserved - needs validation for Energy → Data conversion)
+- ⚠️ Habitat (T2+ preserved - needs validation for Energy → Biomass conversion)
+- ⚠️ Lab (T1+ preserved - needs validation for Data+Energy → Science multi-input)
 
-**All 8 core card evolution chains are now complete!**
+**Note**: T0-T2 sections partially updated to match reconciliation. T3-T5 sections preserved as endgame design and require validation during implementation phase.
+
+**Known Conflicts:**
+1. **Engine**: This file describes Engine as propulsion system (T1-T2), but `cardConfigs.js` defines it as Nanites converter (Metal + Energy → Nanites). **Resolution needed during implementation.**
+2. **Resource names**: This file uses "Alloy", reconciliation uses "Metal" - updated in T0-T2 sections.
+3. **All cards T0 = manual, T1 = automation**: Applied to Extractor and Processor, other cards may need updates.
 
 ---
 
