@@ -7,7 +7,7 @@
 > - T0-T2 sections updated to match reconciled design
 > - All cards now start at Tier 0 (manual only)
 > - Tier 1 unlocks automation (universal rule)
-> - Resource chain: Ore → Metal → Energy → Data → Science → Biomass → Nanites
+> - Resource chain: Ore → Metal → Energy → Data → Science → Xeno-Bloom → Flux-Shard
 > - Canonical names applied (see UPGRADE_COSTS.md)
 > - T3-T5 sections preserved as endgame design (to be validated during implementation)
 
@@ -1326,15 +1326,15 @@ Crew systems unlock at Tier 2 after initial automation established.
 - ✅ Processor (T0-T1 added/updated - now starts at T0, produces Metal)
 - ✅ Storage (T0 updated - no longer free starting card)
 - ⚠️ Reactor (T0-T3 preserved - needs validation for ore burning mechanic)
-- ⚠️ Engine (T1-T2 preserved as propulsion - **conflicts with Nanites converter in cardConfigs.js**)
+- ⚠️ Engine (T1-T2 preserved as propulsion - **conflicts with Flux-Shard converter in cardConfigs.js**)
 - ⚠️ Sensor (T0-T1 preserved - needs validation for Energy → Data conversion)
-- ⚠️ Habitat (T2+ preserved - needs validation for Energy → Biomass conversion)
+- ⚠️ Habitat (T2+ preserved - needs validation for Energy → Xeno-Bloom conversion)
 - ⚠️ Lab (T1+ preserved - needs validation for Data+Energy → Science multi-input)
 
 **Note**: T0-T2 sections partially updated to match reconciliation. T3-T5 sections preserved as endgame design and require validation during implementation phase.
 
 **Known Conflicts:**
-1. **Engine**: This file describes Engine as propulsion system (T1-T2), but `cardConfigs.js` defines it as Nanites converter (Metal + Energy → Nanites). **Resolution needed during implementation.**
+1. **Engine**: This file describes Engine as propulsion system (T1-T2), but `cardConfigs.js` defines it as Flux-Shard converter (Metal + Energy → Flux-Shard). **Resolution needed during implementation.**
 2. **Resource names**: This file uses "Alloy", reconciliation uses "Metal" - updated in T0-T2 sections.
 3. **All cards T0 = manual, T1 = automation**: Applied to Extractor and Processor, other cards may need updates.
 

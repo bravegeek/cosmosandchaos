@@ -66,7 +66,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 120, [RESOURCES.METAL]: 40, [RESOURCES.ENERGY]: 25 },
-      2: { [RESOURCES.ORE]: 1200, [RESOURCES.METAL]: 500, [RESOURCES.ENERGY]: 250, [RESOURCES.DATA]: 100, [RESOURCES.SCIENCE]: 150, [RESOURCES.NANITES]: 50 }
+      2: { [RESOURCES.ORE]: 1200, [RESOURCES.METAL]: 500, [RESOURCES.ENERGY]: 250, [RESOURCES.DATA]: 100, [RESOURCES.SCIENCE]: 150, [RESOURCES.FLUX_SHARD]: 50 }
     },
     tierBenefits: {
       1: {
@@ -97,7 +97,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 200, [RESOURCES.METAL]: 80, [RESOURCES.ENERGY]: 50 },
-      2: { [RESOURCES.ORE]: 2000, [RESOURCES.METAL]: 800, [RESOURCES.ENERGY]: 500, [RESOURCES.SCIENCE]: 200, [RESOURCES.NANITES]: 150 }
+      2: { [RESOURCES.ORE]: 2000, [RESOURCES.METAL]: 800, [RESOURCES.ENERGY]: 500, [RESOURCES.SCIENCE]: 200, [RESOURCES.FLUX_SHARD]: 150 }
     },
     tierBenefits: {
       1: {
@@ -181,25 +181,25 @@ export const CARD_CONFIGS = {
     name: 'ION THRUSTER',
     tier: 0,
     icon: '🚀',
-    counterLabel: 'NANITES',
+    counterLabel: 'FLUX-SHARD',
     counterValue: 0,
     button: 'FABRICATE',
-    secondaryCounters: '<span>Manual: 3 Metal + 2 Energy → 1 Nanite</span>',
+    secondaryCounters: '<span>Manual: 3 Metal + 2 Energy → 1 Flux-Shard</span>',
     progress: 0,
     // Phase 2: Multi-input converter
     inputRequirements: { [RESOURCES.METAL]: 0.5, [RESOURCES.ENERGY]: 0.3 },  // Dual input at T1
-    outputs: [RESOURCES.NANITES],
-    baseRate: 0.15,                // 0.15 nanites per second at Tier 1
+    outputs: [RESOURCES.FLUX_SHARD],
+    baseRate: 0.15,                // 0.15 flux-shard per second at Tier 1
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 250, [RESOURCES.METAL]: 100, [RESOURCES.ENERGY]: 60, [RESOURCES.DATA]: 30, [RESOURCES.SCIENCE]: 20, [RESOURCES.XENO_BLOOM]: 40 },
-      2: { [RESOURCES.ORE]: 2500, [RESOURCES.METAL]: 1000, [RESOURCES.ENERGY]: 600, [RESOURCES.DATA]: 300, [RESOURCES.SCIENCE]: 250, [RESOURCES.XENO_BLOOM]: 400, [RESOURCES.NANITES]: 200 }
+      2: { [RESOURCES.ORE]: 2500, [RESOURCES.METAL]: 1000, [RESOURCES.ENERGY]: 600, [RESOURCES.DATA]: 300, [RESOURCES.SCIENCE]: 250, [RESOURCES.XENO_BLOOM]: 400, [RESOURCES.FLUX_SHARD]: 200 }
     },
     tierBenefits: {
       1: {
         automation: true,
         rateMultiplier: 1.0,
-        description: 'Unlocks automated nanite fabrication'
+        description: 'Unlocks automated flux-shard fabrication'
       },
       2: {
         automation: true,
@@ -225,7 +225,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 180, [RESOURCES.METAL]: 60, [RESOURCES.ENERGY]: 40, [RESOURCES.XENO_BLOOM]: 30 },
-      2: { [RESOURCES.ORE]: 1800, [RESOURCES.METAL]: 700, [RESOURCES.ENERGY]: 400, [RESOURCES.SCIENCE]: 150, [RESOURCES.XENO_BLOOM]: 300, [RESOURCES.NANITES]: 100 }
+      2: { [RESOURCES.ORE]: 1800, [RESOURCES.METAL]: 700, [RESOURCES.ENERGY]: 400, [RESOURCES.SCIENCE]: 150, [RESOURCES.XENO_BLOOM]: 300, [RESOURCES.FLUX_SHARD]: 100 }
     },
     tierBenefits: {
       1: {
@@ -257,7 +257,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades (NO SCIENCE COST for T1 - bootstrapping!)
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 150, [RESOURCES.METAL]: 50, [RESOURCES.ENERGY]: 30, [RESOURCES.DATA]: 20 },
-      2: { [RESOURCES.ORE]: 1500, [RESOURCES.METAL]: 600, [RESOURCES.ENERGY]: 300, [RESOURCES.DATA]: 200, [RESOURCES.SCIENCE]: 200, [RESOURCES.NANITES]: 75 }
+      2: { [RESOURCES.ORE]: 1500, [RESOURCES.METAL]: 600, [RESOURCES.ENERGY]: 300, [RESOURCES.DATA]: 200, [RESOURCES.SCIENCE]: 200, [RESOURCES.FLUX_SHARD]: 75 }
     },
     tierBenefits: {
       1: {

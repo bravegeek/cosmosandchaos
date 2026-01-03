@@ -13,7 +13,7 @@ This document defines the canonical upgrade costs for all 8 core card slots acro
 1. **10x scaling per tier** (exponential idle game standard)
 2. **Multi-resource costs increase with tier** (T1: 2-3 types, T2: 4-5 types, T3: 5-6 types)
 3. **Time estimates** based on production rates (manual → automation → compound)
-4. **Path signaling at T3** (Wonder uses Science+Xeno-Bloom, Dread uses Nanites+Energy)
+4. **Path signaling at T3** (Wonder uses Science+Xeno-Bloom, Dread uses Flux-Shard+Energy)
 
 ---
 
@@ -36,7 +36,7 @@ This document defines the canonical upgrade costs for all 8 core card slots acro
 
 All cards unlock automation at Tier 1. Manual clicking still works but is no longer required.
 
-| Card Slot | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Nanites | Time Est. |
+| Card Slot | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Flux-Shard | Time Est. |
 |-----------|-----|-------|--------|------|---------|---------|---------|-----------|
 | **Extractor** | 50 | - | - | - | - | - | - | 2 min |
 | **Processor** | 75 | 20 | - | - | - | - | - | 4 min |
@@ -60,7 +60,7 @@ After unlocking Tier 1, cards produce automatically:
 | Lab T1 | 0.2 science/sec | Consumes 0.5 data/sec + 0.5 energy/sec |
 | Habitat T1 | 0.3 xeno-bloom/sec | Consumes 1.0 energy/sec |
 | Storage T1 | Passive | 2x capacity (2000 → storage cap) |
-| Engine T1 | 0.15 nanites/sec | Consumes 0.5 metal/sec + 0.3 energy/sec |
+| Engine T1 | 0.15 flux-shard/sec | Consumes 0.5 metal/sec + 0.3 energy/sec |
 
 **Note**: Lab T1 also unlocks Science. Sensor T1+ generates +0.1 science/sec as passive byproduct.
 
@@ -70,7 +70,7 @@ After unlocking Tier 1, cards produce automatically:
 
 **~10x cost scaling** from Tier 1 unlock costs.
 
-| Card Slot | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Nanites | Time Est. |
+| Card Slot | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Flux-Shard | Time Est. |
 |-----------|-----|-------|--------|------|---------|---------|---------|-----------|
 | **Extractor** | 500 | 200 | 100 | - | 50 | - | - | ~30 min |
 | **Processor** | 750 | 300 | 150 | 50 | 75 | - | - | ~45 min |
@@ -94,7 +94,7 @@ Tier 2 cards produce **~2-3x** faster than Tier 1:
 | Lab T2 | 0.6 science/sec | +200% |
 | Habitat T2 | 0.8 xeno-bloom/sec | +166% |
 | Storage T2 | 10,000 cap | +5x capacity |
-| Engine T2 | 0.4 nanites/sec | +166% |
+| Engine T2 | 0.4 flux-shard/sec | +166% |
 
 ---
 
@@ -108,7 +108,7 @@ Tier 2 cards produce **~2-3x** faster than Tier 1:
 
 Wonder-leaning resources: **Science**, **Xeno-Bloom**, balanced resource usage.
 
-| Card Slot | Wonder Variant | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Nanites |
+| Card Slot | Wonder Variant | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Flux-Shard |
 |-----------|---------------|-----|-------|--------|------|---------|---------|---------|
 | **Extractor** | Harmonic Siphon | 10K | 5K | 2K | - | 1K | 500 | - |
 | **Processor** | Matter Weaver | 12K | 6K | 2.5K | 500 | 1.5K | - | 200 |
@@ -121,9 +121,9 @@ Wonder-leaning resources: **Science**, **Xeno-Bloom**, balanced resource usage.
 
 ### Dread Path (T3B) Costs
 
-Dread-leaning resources: **Nanites**, **excess Energy**, aggressive resource usage.
+Dread-leaning resources: **Flux-Shard**, **excess Energy**, aggressive resource usage.
 
-| Card Slot | Dread Variant | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Nanites |
+| Card Slot | Dread Variant | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Flux-Shard |
 |-----------|--------------|-----|-------|--------|------|---------|---------|---------|
 | **Extractor** | Rift Bore | 10K | 5K | 3K | - | 200 | - | 1K |
 | **Processor** | Entropic Forge | 12K | 6K | 4K | - | 500 | - | 1.5K |
@@ -154,7 +154,7 @@ Tier 3 cards produce **~3-5x** faster than Tier 2, with unique mechanics:
 
 **~100x cost scaling** from base Tier 3 costs. Requires significant production infrastructure.
 
-| Card Slot | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Nanites |
+| Card Slot | Ore | Metal | Energy | Data | Science | Xeno-Bloom | Flux-Shard |
 |-----------|-----|-------|--------|------|---------|---------|---------|
 | **Extractor** | 1M | 500K | 200K | - | 100K | 50K | 50K |
 | **Processor** | 1.2M | 600K | 250K | 50K | 150K | - | 100K |
@@ -175,7 +175,7 @@ Tier 5 represents endgame victory conditions. Costs are massive, designed for la
 
 **Estimated Costs** (per victory path):
 - **Wonder Victory (World-Seeding Protocol)**: ~10M ore, ~5M metal, ~2M energy, ~1M science, ~500K xeno-bloom
-- **Dread Victory (Autonomous Scaling Protocol)**: ~10M ore, ~5M metal, ~3M energy, ~2M nanites
+- **Dread Victory (Autonomous Scaling Protocol)**: ~10M ore, ~5M metal, ~3M energy, ~2M flux-shard
 - **Witness Victory (Apotheosis Engine)**: Requires BOTH Wonder + Dread paths, ~20M total resources
 
 ---

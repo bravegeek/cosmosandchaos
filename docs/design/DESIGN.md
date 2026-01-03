@@ -87,7 +87,7 @@ TIER 1 (Automation Unlocks):
 TIER 1+ (Multi-Input Converters):
   Data + Energy → Science (Lab T1)
   Energy → Xeno-Bloom (Habitat T1)
-  Metal + Energy → Nanites (Engine T1)
+  Metal + Energy → Flux-Shard (Engine T1)
 ```
 
 ### Resource Introduction Timeline
@@ -100,7 +100,7 @@ TIER 1+ (Multi-Input Converters):
 | 5:00 | Data | Sensor T1 | Unlock 3 |
 | 7:00 | Science | Lab T1 (multi-input) | Unlock 4 |
 | 10:00 | Xeno-Bloom | Habitat T1 | Unlock 5 |
-| 12:00 | Nanites | Engine T1 (multi-input) | Unlock 6 |
+| 12:00 | Flux-Shard | Engine T1 (multi-input) | Unlock 6 |
 
 ### Science Production (Multi-Source Bootstrapping)
 

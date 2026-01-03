@@ -16,7 +16,7 @@ export const RESOURCES = {
   SCIENCE: 'science',
   DATA: 'data',
   XENO_BLOOM: 'xenoBloom',  // Renamed from BIOMASS (2025-12-25)
-  NANITES: 'nanites'
+  FLUX_SHARD: 'fluxShard'   // Renamed from NANITES (2026-01-02)
 };
 
 /**
