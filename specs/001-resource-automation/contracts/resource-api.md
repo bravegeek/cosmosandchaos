@@ -19,7 +19,7 @@ This contract defines the API for resource management operations in Phase 2. All
 Adds resources with fractional support using accumulator pattern.
 
 **Parameters**:
-- `type` (ResourceType): Resource type identifier ('ore', 'energy', 'data', 'biomass', 'nanites')
+- `type` (ResourceType): Resource type identifier ('ore', 'energy', 'data', 'biomass', 'flux-shard')
 - `amount` (number): Amount to add (can be fractional, e.g., 0.7)
 
 **Preconditions**:
@@ -282,7 +282,7 @@ const ResourceType = Object.freeze({
   ENERGY: 'energy',
   DATA: 'data',
   BIOMASS: 'biomass',
-  NANITES: 'nanites'
+  NANITES: 'flux-shard'
 });
 
 function isValidResourceType(type) {
@@ -456,7 +456,7 @@ function addResource(type, amount) {
 function loadSave(data) {
   gameState.resources = data.resources;
   gameState.resourceAccumulators = data.resourceAccumulators || {
-    ore: 0, energy: 0, data: 0, biomass: 0, nanites: 0
+    ore: 0, energy: 0, data: 0, biomass: 0, flux-shard: 0
   };
 }
 ```

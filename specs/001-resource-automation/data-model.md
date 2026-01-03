@@ -21,7 +21,7 @@ Represents a game resource type with current amount and accumulator for fraction
 **Properties**:
 ```javascript
 {
-  type: string,            // Resource type ID: 'ore'|'energy'|'data'|'biomass'|'nanites'
+  type: string,            // Resource type ID: 'ore'|'energy'|'data'|'biomass'|'flux-shard'
   name: string,            // Display name: 'Ore', 'Energy', etc.
   icon: string,            // Display icon (emoji or SVG path): '⛏️', '⚡', etc.
   color: string,           // CSS color for UI: '#999999', '#00ffff', etc.
@@ -40,7 +40,7 @@ canAfford(cost: number): boolean    // Check if sufficient resources exist
 ```
 
 **Validation**:
-- `type` must be one of: 'ore', 'energy', 'data', 'biomass', 'nanites'
+- `type` must be one of: 'ore', 'energy', 'data', 'biomass', 'flux-shard'
 - `amount` ≥ 0 (cannot go negative)
 - `accumulator` range: [0, 1)
 - `getTrueValue()` must equal `amount + accumulator`
@@ -411,7 +411,7 @@ class GameState extends EventEmitter {
       energy: 0,
       data: 0,
       biomass: 0,
-      nanites: 0
+      flux-shard: 0
     };
 
     // Card production accumulators
@@ -640,7 +640,7 @@ this.cards.extractor = {
     energy: 567,
     data: 89,
     biomass: 0,
-    nanites: 0
+    flux-shard: 0
   },
 
   // Resource accumulators (fractional parts - critical for accuracy!)
@@ -649,7 +649,7 @@ this.cards.extractor = {
     energy: 0.3,
     data: 0.1,
     biomass: 0.0,
-    nanites: 0.0
+    flux-shard: 0.0
   },
 
   // Card state
@@ -696,12 +696,12 @@ Phase 1.5 has:
    ```javascript
    gameState.resources.data = 0;
    gameState.resources.biomass = 0;
-   gameState.resources.nanites = 0;
+   gameState.resources.flux-shard = 0;
    ```
 
 2. **Initialize accumulators**:
    ```javascript
-   gameState.resourceAccumulators = { ore: 0, energy: 0, data: 0, biomass: 0, nanites: 0 };
+   gameState.resourceAccumulators = { ore: 0, energy: 0, data: 0, biomass: 0, flux-shard: 0 };
    gameState.cardAccumulators = { extractor: 0, sensor: 0, /* ... */ };
    ```
 
@@ -730,7 +730,7 @@ Phase 1.5 has:
 ## Type Definitions (for TypeScript migration)
 
 ```typescript
-type ResourceType = 'ore' | 'energy' | 'data' | 'biomass' | 'nanites';
+type ResourceType = 'ore' | 'energy' | 'data' | 'biomass' | 'flux-shard';
 type UpdateTier = 'primary' | 'secondary' | 'tertiary';
 type LEDColor = 'green' | 'yellow' | 'red';
 type IODirection = 'input' | 'output';

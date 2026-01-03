@@ -91,7 +91,7 @@ As a player, I want to track different resource types (Ore, Energy, Data, etc.) 
 - **FR-002**: System MUST display status LEDs with three states: green (>80% efficiency), yellow (40-80%), red (<40%)
 - **FR-003**: Cards MUST be able to automatically produce resources without player interaction once placed on the grid
 - **FR-004**: System MUST display I/O indicators showing which resources a card produces and consumes
-- **FR-005**: System MUST track at least 6 distinct resource types: Ore, Metal, Energy, Data, Science, Biomass, and Nanites (Reconciled 2025-12-25)
+- **FR-005**: System MUST track at least 6 distinct resource types: Ore, Metal, Energy, Data, Science, Xeno-Bloom, and Flux-Shard (Reconciled 2025-12-25)
 - **FR-006**: System MUST calculate efficiency based on available inputs versus required inputs
 - **FR-007**: System MUST persist resource values when cards are moved on the grid
 - **FR-008**: Counters MUST display numeric values with appropriate formatting (e.g., 1.2K, 3.4M for large numbers)
@@ -102,7 +102,7 @@ As a player, I want to track different resource types (Ore, Energy, Data, etc.) 
 
 ### Key Entities
 
-- **Resource**: Represents a game resource type (Ore, Energy, Data, Biomass, Nanites) with name, icon, and current amount
+- **Resource**: Represents a game resource type (Ore, Energy, Data, Xeno-Bloom, Flux-Shard) with name, icon, and current amount
 - **Counter**: A visual display component showing resource values on a card, with update rate and formatting rules
 - **StatusLED**: A visual indicator showing card efficiency state (green/yellow/red), derived from efficiency calculation
 - **IOIndicator**: A visual component showing resource inputs and outputs on a card, with direction and resource type

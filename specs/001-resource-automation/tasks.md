@@ -26,7 +26,7 @@ Project structure (from plan.md):
 
 **Purpose**: Project initialization and basic structure extensions for Phase 2
 
-- [X] T001 [P] Add Phase 2 resource types (data, biomass, nanites) to src/js/state.js GameState.resources
+- [X] T001 [P] Add Phase 2 resource types (data, biomass, flux-shard) to src/js/state.js GameState.resources
 - [X] T002 [P] Initialize resource accumulators object in src/js/state.js GameState constructor
 - [X] T003 [P] Initialize card accumulators object in src/js/state.js GameState constructor
 - [X] T004 [P] Initialize productionRates object in src/js/state.js GameState constructor
@@ -150,7 +150,7 @@ Project structure (from plan.md):
 
 ## Phase 6: User Story 4 - Track Multiple Resource Types (Priority: P3)
 
-**Goal**: Extend system to track 5 distinct resource types (Ore, Energy, Data, Biomass, Nanites) with separate counters
+**Goal**: Extend system to track 5 distinct resource types (Ore, Energy, Data, Xeno-Bloom, Flux-Shard) with separate counters
 
 **Independent Test**: Create cards that produce different resource types, verify each resource tracks separately in the global resource panel and card counters
 

@@ -35,7 +35,7 @@ class GameState extends EventEmitter {
       science: 0,
       data: 0,        // NEW: Add Phase 2 resources
       biomass: 0,     // NEW
-      nanites: 0      // NEW
+      flux-shard: 0      // NEW
     };
 
     // NEW: Resource accumulators for fractional tracking
@@ -46,7 +46,7 @@ class GameState extends EventEmitter {
       science: 0,
       data: 0,
       biomass: 0,
-      nanites: 0
+      flux-shard: 0
     };
 
     // Existing cards
@@ -717,7 +717,7 @@ class SaveManager {
 
     // NEW: Restore accumulators (backwards compatible)
     gameState.resourceAccumulators = saveData.resourceAccumulators || {
-      ore: 0, metal: 0, energy: 0, science: 0, data: 0, biomass: 0, nanites: 0
+      ore: 0, metal: 0, energy: 0, science: 0, data: 0, biomass: 0, flux-shard: 0
     };
     gameState.cardAccumulators = saveData.cardAccumulators || {};
 

@@ -216,8 +216,8 @@ Five initial resource types aligned with ark ship theme:
 | **Ore** | Raw minerals from asteroid mining | ⛏️ | Gray (#999) | Extractor cards | Processors, Reactors |
 | **Energy** | Power generation | ⚡ | Cyan (#00ffff) | Reactor cards | All automated cards |
 | **Data** | Sensor information, research | 📊 | Blue (#4488ff) | Sensor, Lab cards | Advanced processors |
-| **Biomass** | Organic matter, life support | 🌱 | Green (#44ff44) | Habitat cards | Advanced systems |
-| **Nanites** | Self-replicating construction units | 🔬 | Red-orange (#ff4400) | Lab cards | High-tier construction |
+| **Xeno-Bloom** | Organic matter, life support | 🌱 | Green (#44ff44) | Habitat cards | Advanced systems |
+| **Flux-Shard** | Self-replicating construction units | 🔬 | Red-orange (#ff4400) | Lab cards | High-tier construction |
 
 ### Thematic Integration
 
@@ -227,9 +227,9 @@ Five initial resource types aligned with ark ship theme:
 
 **Data**: Knowledge resource - sensor readings, scientific discoveries. Enables tech upgrades and optimization. Required for advanced systems.
 
-**Biomass**: Life support - organic matter for crew sustenance and ecosystem stability. Balances Cosmos (order) vs Chaos (entropy) themes.
+**Xeno-Bloom**: Life support - organic matter for crew sustenance and ecosystem stability. Balances Cosmos (order) vs Chaos (entropy) themes.
 
-**Nanites**: Advanced construction - self-assembling technology for high-tier cards. Rare, powerful, unlocks late-game content.
+**Flux-Shard**: Advanced construction - self-assembling technology for high-tier cards. Rare, powerful, unlocks late-game content.
 
 ### Production Chains (Example)
 
@@ -240,7 +240,7 @@ Processor (T1 Auto) → Ore + Energy → Metal
   ↓
 Forge (T2) → Metal + Energy + Data → Alloy
   ↓
-Constructor (T3) → Alloy + Nanites → Wonder/Dread Cards
+Constructor (T3) → Alloy + Flux-Shard → Wonder/Dread Cards
 ```
 
 ### Visual Design
