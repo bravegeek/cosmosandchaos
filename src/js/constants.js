@@ -15,7 +15,7 @@ export const RESOURCES = {
   ENERGY: 'energy',
   SCIENCE: 'science',
   DATA: 'data',
-  BIOMASS: 'biomass',
+  XENO_BLOOM: 'xenoBloom',  // Renamed from BIOMASS (2025-12-25)
   NANITES: 'nanites'
 };
 

@@ -192,8 +192,8 @@ export const CARD_CONFIGS = {
     baseRate: 0.15,                // 0.15 nanites per second at Tier 1
     // Phase 3: Tier upgrades
     upgradeCosts: {
-      1: { [RESOURCES.ORE]: 250, [RESOURCES.METAL]: 100, [RESOURCES.ENERGY]: 60, [RESOURCES.DATA]: 30, [RESOURCES.SCIENCE]: 20, [RESOURCES.BIOMASS]: 40 },
-      2: { [RESOURCES.ORE]: 2500, [RESOURCES.METAL]: 1000, [RESOURCES.ENERGY]: 600, [RESOURCES.DATA]: 300, [RESOURCES.SCIENCE]: 250, [RESOURCES.BIOMASS]: 400, [RESOURCES.NANITES]: 200 }
+      1: { [RESOURCES.ORE]: 250, [RESOURCES.METAL]: 100, [RESOURCES.ENERGY]: 60, [RESOURCES.DATA]: 30, [RESOURCES.SCIENCE]: 20, [RESOURCES.XENO_BLOOM]: 40 },
+      2: { [RESOURCES.ORE]: 2500, [RESOURCES.METAL]: 1000, [RESOURCES.ENERGY]: 600, [RESOURCES.DATA]: 300, [RESOURCES.SCIENCE]: 250, [RESOURCES.XENO_BLOOM]: 400, [RESOURCES.NANITES]: 200 }
     },
     tierBenefits: {
       1: {
@@ -213,25 +213,25 @@ export const CARD_CONFIGS = {
     name: 'CREW QUARTERS',
     tier: 0,
     icon: '🏠',
-    counterLabel: 'BIOMASS',
+    counterLabel: 'XENO-BLOOM',
     counterValue: 0,
     button: 'CULTIVATE',
-    secondaryCounters: '<span>Manual: 5 Energy → 2 Biomass</span>',
+    secondaryCounters: '<span>Manual: 5 Energy → 2 Xeno-Bloom</span>',
     progress: 0,
     // Phase 2: Production automation
     inputRequirements: { [RESOURCES.ENERGY]: 1.0 },  // Consumes energy at T1
-    outputs: [RESOURCES.BIOMASS],         // Produces biomass
-    baseRate: 0.3,                 // 0.3 biomass per second at Tier 1
+    outputs: [RESOURCES.XENO_BLOOM],      // Produces xeno-bloom (exotic organic matter)
+    baseRate: 0.3,                 // 0.3 xeno-bloom per second at Tier 1
     // Phase 3: Tier upgrades
     upgradeCosts: {
-      1: { [RESOURCES.ORE]: 180, [RESOURCES.METAL]: 60, [RESOURCES.ENERGY]: 40, [RESOURCES.BIOMASS]: 30 },
-      2: { [RESOURCES.ORE]: 1800, [RESOURCES.METAL]: 700, [RESOURCES.ENERGY]: 400, [RESOURCES.SCIENCE]: 150, [RESOURCES.BIOMASS]: 300, [RESOURCES.NANITES]: 100 }
+      1: { [RESOURCES.ORE]: 180, [RESOURCES.METAL]: 60, [RESOURCES.ENERGY]: 40, [RESOURCES.XENO_BLOOM]: 30 },
+      2: { [RESOURCES.ORE]: 1800, [RESOURCES.METAL]: 700, [RESOURCES.ENERGY]: 400, [RESOURCES.SCIENCE]: 150, [RESOURCES.XENO_BLOOM]: 300, [RESOURCES.NANITES]: 100 }
     },
     tierBenefits: {
       1: {
         automation: true,
         rateMultiplier: 1.0,
-        description: 'Unlocks automated biomass cultivation'
+        description: 'Unlocks automated xeno-bloom cultivation'
       },
       2: {
         automation: true,

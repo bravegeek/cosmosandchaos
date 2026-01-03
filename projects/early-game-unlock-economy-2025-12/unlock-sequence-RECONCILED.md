@@ -15,7 +15,7 @@ Based on reconciliation (2025-12-25):
 3. **Metal Resource**: Second resource after Ore (Processor produces Metal, not Energy)
 4. **Chain Bonus Discovery**: Triggers when player creates first 3-card chain (organic)
 5. **Starting Config**: Extractor T0 only (Storage unlockable)
-6. **6 Resources**: Ore → Metal → Energy → Data → Science → Biomass → Nanites
+6. **6 Resources**: Ore → Metal → Energy → Data → Science → Xeno-Bloom → Nanites
 7. **No Ghost Vista**: Deferred to Phase 3+ (simple upgrade menu for now)
 8. **Wonder/Dread**: No tracking until T3 (neutral progression)
 
@@ -236,16 +236,16 @@ Storage: 1 connection (Processor) = +10%
 
 **Card Stats (T0)**:
 - **Type**: Converter
-- **I/O**: Energy input → Biomass output
-- **Production**: Manual only (click "CULTIVATE" - 5 energy → 2 biomass)
+- **I/O**: Energy input → Xeno-Bloom output
+- **Production**: Manual only (click "CULTIVATE" - 5 energy → 2 xeno-bloom)
 
 **What Player Learns**:
-- Sixth resource type: **Biomass**
+- Sixth resource type: **Xeno-Bloom**
 - Energy bottleneck (multiple energy consumers)
 - Life support/crew systems exist
 
 **Visual Feedback**:
-- Biomass counter appears (0/100)
+- Xeno-Bloom counter appears (0/100)
 
 ---
 
@@ -309,7 +309,7 @@ Players choose upgrade order based on bottlenecks. Typical order:
 | 2 | **Reactor** | 100 ore, 30 metal | Automates energy generation |
 | 3 | **Sensor** | 120 ore, 40 metal, 25 energy | Automates data production |
 | 4 | **Lab** | 150 ore, 50 metal, 30 energy, 20 data | Auto-science critical for future upgrades |
-| 5 | **Habitat** | 180 ore, 60 metal, 40 energy | Auto-biomass |
+| 5 | **Habitat** | 180 ore, 60 metal, 40 energy | Auto-xeno-bloom |
 | 6 | **Storage** | 200 ore, 80 metal, 50 energy | 2x capacity (2,000 cap) |
 | 7 | **Engine** | 250 ore, 100 metal, 60 energy, 30 data, 20 science | Auto-nanites (endgame resource) |
 
@@ -319,7 +319,7 @@ Players choose upgrade order based on bottlenecks. Typical order:
 - Reactor: 0.8 energy/sec (burns 0.5 ore/sec)
 - Sensor: 0.3 data/sec (consumes 1.0 energy/sec) + 0.1 science/sec passive
 - Lab: 0.2 science/sec (consumes 0.5 data/sec + 0.5 energy/sec)
-- Habitat: 0.3 biomass/sec (consumes 1.0 energy/sec)
+- Habitat: 0.3 xeno-bloom/sec (consumes 1.0 energy/sec)
 - Engine: 0.15 nanites/sec (consumes 0.5 metal/sec + 0.3 energy/sec)
 
 **Time Estimate**: All 8 cards at T1 by ~25-30 minutes (active play with chain bonuses)
@@ -339,14 +339,14 @@ Players choose upgrade order based on bottlenecks. Typical order:
 | 5-7m | 4 | Card Unlock | Sensor T0 | 120 ore, 50 metal, 25 energy | Data |
 | ~7m | MILESTONE | Discovery | Chain Synergy | (automatic) | +25 Science |
 | 7-10m | 5 | Card Unlock | Lab T0 | 150 ore, 50 metal, 30 energy, 20 data | Science |
-| 10-12m | 6 | Card Unlock | Habitat T0 | 180 ore, 60 metal, 40 energy | Biomass |
+| 10-12m | 6 | Card Unlock | Habitat T0 | 180 ore, 60 metal, 40 energy | Xeno-Bloom |
 | 12-15m | 7 | Card Unlock | Engine T0 | 200 ore, 80 metal, 50 energy, 30 data | Nanites |
 | 15-18m | 8 | Tier Upgrade | Extractor T1 | 50 ore | Automation unlocked |
 | 18-20m | 9 | Tier Upgrade | Processor T1 | 75 ore, 20 metal | Auto-metal |
 | 20-22m | 10 | Tier Upgrade | Reactor T1 | 100 ore, 30 metal | Auto-energy |
 | 22-24m | 11 | Tier Upgrade | Sensor T1 | 120 ore, 40 metal, 25 energy | Auto-data |
 | 24-26m | 12 | Tier Upgrade | Lab T1 | 150 ore, 50 metal, 30 energy, 20 data | Auto-science |
-| 26-28m | 13 | Tier Upgrade | Habitat T1 | 180 ore, 60 metal, 40 energy | Auto-biomass |
+| 26-28m | 13 | Tier Upgrade | Habitat T1 | 180 ore, 60 metal, 40 energy | Auto-xeno-bloom |
 | 28-30m | 14 | Tier Upgrade | Storage T1 | 200 ore, 80 metal, 50 energy | 2x capacity |
 | 30+m | 15 | Tier Upgrade | Engine T1 | 250 ore, 100 metal, 60 energy, 30 data, 20 science | Auto-nanites |
 
@@ -361,7 +361,7 @@ Phase 1: Card Unlocks (T0)
   3m: Energy (Reactor T0 - manual burn ore)
   5m: Data (Sensor T0 - manual scan)
   7m: Science (Lab T0 - manual research)
-  10m: Biomass (Habitat T0 - manual cultivate)
+  10m: Xeno-Bloom (Habitat T0 - manual cultivate)
   12m: Nanites (Engine T0 - manual fabricate)
 
 Phase 2: Automation (T1)
@@ -433,7 +433,7 @@ gameState.resources = {
   energy: 0,
   data: 0,
   science: 0,
-  biomass: 0,
+  xenoBloom: 0,
   nanites: 0
 };
 

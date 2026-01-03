@@ -86,7 +86,7 @@ TIER 1 (Automation Unlocks):
 
 TIER 1+ (Multi-Input Converters):
   Data + Energy → Science (Lab T1)
-  Energy → Biomass (Habitat T1)
+  Energy → Xeno-Bloom (Habitat T1)
   Metal + Energy → Nanites (Engine T1)
 ```
 
@@ -99,7 +99,7 @@ TIER 1+ (Multi-Input Converters):
 | 3:00 | Energy | Reactor T1 | Unlock 2 |
 | 5:00 | Data | Sensor T1 | Unlock 3 |
 | 7:00 | Science | Lab T1 (multi-input) | Unlock 4 |
-| 10:00 | Biomass | Habitat T1 | Unlock 5 |
+| 10:00 | Xeno-Bloom | Habitat T1 | Unlock 5 |
 | 12:00 | Nanites | Engine T1 (multi-input) | Unlock 6 |
 
 ### Science Production (Multi-Source Bootstrapping)
