@@ -151,7 +151,7 @@ You are the AI custodian of a generational ark ship. Your goal is to maintain th
 - [x] Status LEDs (efficiency indicators)
 - [x] I/O indicators (connection visualization)
 - [x] Auto-production (placed cards produce automatically)
-- [x] Multi-resource system (5 resource types)
+- [x] Multi-resource system (7 resource types)
 - [x] DisplayUpdateManager (throttled updates)
 - [x] Sub-unit precision (accumulator system)
 - [x] Save/load persistence

@@ -612,7 +612,7 @@ See Victory Conditions section above for T33, T34, and T33b.
 **Dread Path: "The Leech" (Parasitic Adjacency)**
 - **Mechanic**: Tier 3+ Dread cards gain massive bonuses from consumption
 - **Effect**: +50% output when adjacent to specific card types, but drains neighbor resources
-- **Example**: Rift Extractor gets +50% speed if touching Habitat, but drains -1 Biomass/sec
+- **Example**: Rift Extractor gets +50% speed if touching Habitat, but drains -1 Xeno-Bloom/sec
 - **Strategy**: Use "sacrificial" cards as buffers, isolate high-output Dread cards from critical infrastructure
 
 ---

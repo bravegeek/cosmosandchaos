@@ -23,7 +23,7 @@ Designed a comprehensive early game system that:
 
 ### Game Overview
 Cosmos and Chaos is a hybrid active/idle card-based resource management game with:
-- 5 resource types: Ore, Energy, Data, Biomass, Nanites
+- 7 resource types: Ore, Metal, Energy, Data, Science, Xeno-Bloom, Flux-Shard
 - Cards with tiers (0-3+) that produce/convert/consume resources
 - I/O connection system (cards link via adjacency)
 - Efficiency mechanics based on input resource availability
@@ -232,13 +232,13 @@ Unlock 2:  [Ore Generator] → [Refinery] → [Data Processor] → produces Data
 Unlock 3:  [Reactor] - pure Energy generator (independent source)
            (Now: parallel production possible, strategic choice unlocked)
 
-Unlock 4:  [Biomass Cultivator] - Data → Biomass converter
+Unlock 4:  [Habitat] - Energy → Xeno-Bloom converter
            (Fourth resource via conversion, extending chain thinking)
 
 Unlock 5:  [Science Lab] - consumes Data + Energy → Science
            (Teaches: multi-input consumers, optimization of two resources)
 
-Unlock 6+: Pure generators for Data, Biomass, Nanites become available
+Unlock 6+: Pure generators for Data, Xeno-Bloom, Flux-Shard become available
            (Strategic freedom: direct production OR conversion chains)
 ```
 

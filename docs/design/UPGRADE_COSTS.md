@@ -200,7 +200,7 @@ T4→T5: ~10,000,000 ore (10x)
 T1: 1-2 resource types
 T2: 2-4 resource types
 T3: 4-6 resource types (path-dependent)
-T4+: All 6 resource types required
+T4+: All 7 resource types required
 ```
 
 ---

@@ -184,7 +184,7 @@ I offered four distinct expert perspectives:
 
 ### Question 7: Resource Requirements & Strategic Diversity
 
-**Why I asked this**: With 5 resource types, I needed to understand how quickly to introduce complexity.
+**Why I asked this**: With 7 resource types, I needed to understand how quickly to introduce complexity.
 
 **Options Presented**:
 - Sequential introduction (Ore → Energy → Data → etc.)
@@ -356,7 +356,7 @@ These searches would be documented here with timestamps and results used.
 
 **Existing Implementation**:
 - Working resource automation system
-- 5 resource types with I/O connections
+- 7 resource types with I/O connections
 - Efficiency mechanics based on input availability
 - Visual feedback (LEDs, connection indicators)
 
@@ -530,7 +530,7 @@ Each research area maps directly to a design decision that needs validation or d
 
 **Mid-game progression**:
 - How does unlock economy evolve after first 12 cards?
-- When do advanced resources (Biomass, Nanites) unlock?
+- When do advanced resources (Xeno-Bloom, Flux-Shard) unlock?
 - Tier 2+ card unlocks (higher tier converters and generators)
 
 **Wonder/Dread reveal design**:

@@ -27,7 +27,7 @@
    - Position-aware indicator placement (left/right/top/bottom)
 
 4. **Multi-Resource Tracking** (US4 - Priority P3)
-   - 5 distinct resource types: Ore, Energy, Data, Biomass, Nanites
+   - 7 distinct resource types: Ore, Metal, Energy, Data, Science, Xeno-Bloom, Flux-Shard
    - Global resource display panel with real-time updates
    - formatNumber() utility for large values (K/M/B notation)
    - Cross-resource consumption support (e.g., data+energy → science)
@@ -93,7 +93,7 @@ User should validate:
 1. Place Tier 1 card → verify auto-production starts
 2. Check LED changes color based on resource availability
 3. Place adjacent cards with matching I/O → verify connection indicators
-4. Verify all 5 resource types track separately in global panel
+4. Verify all 7 resource types track separately in global panel
 5. Check formatNumber() works (1000 → 1.0K, 1000000 → 1.0M)
 6. Save/load game → verify accumulators persist
 7. Performance: 60 FPS with 25+ cards (DevTools Performance tab)
