@@ -33,7 +33,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 50 },              // Cost to upgrade from Tier 0 to Tier 1
-      2: { [RESOURCES.ORE]: 500, [RESOURCES.METAL]: 200, [RESOURCES.ENERGY]: 100, [RESOURCES.SCIENCE]: 50 }
+      2: { [RESOURCES.ORE]: 500, [RESOURCES.METAL]: 200, [RESOURCES.ENERGY]: 100, [RESOURCES.PROTOCOLS]: 50 }
     },
     tierBenefits: {
       1: {
@@ -60,19 +60,19 @@ export const CARD_CONFIGS = {
     progress: 0,
     // Phase 2: Production automation
     inputRequirements: { [RESOURCES.ENERGY]: 1.0 },  // Consumes 1.0 energy/sec at T1
-    outputs: [RESOURCES.DATA, RESOURCES.SCIENCE],     // Produces data + passive science
+    outputs: [RESOURCES.DATA, RESOURCES.PROTOCOLS],   // Produces data + passive protocols
     baseRate: 0.3,                 // 0.3 data per second at Tier 1
-    passiveScience: 0.1,           // +0.1 science/sec passive generation (T1+)
+    passiveProtocols: 0.1,         // +0.1 protocols/sec passive generation (T1+)
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 120, [RESOURCES.METAL]: 40, [RESOURCES.ENERGY]: 25 },
-      2: { [RESOURCES.ORE]: 1200, [RESOURCES.METAL]: 500, [RESOURCES.ENERGY]: 250, [RESOURCES.DATA]: 100, [RESOURCES.SCIENCE]: 150, [RESOURCES.FLUX_SHARD]: 50 }
+      2: { [RESOURCES.ORE]: 1200, [RESOURCES.METAL]: 500, [RESOURCES.ENERGY]: 250, [RESOURCES.DATA]: 100, [RESOURCES.PROTOCOLS]: 150, [RESOURCES.FLUX_SHARD]: 50 }
     },
     tierBenefits: {
       1: {
         automation: true,
         rateMultiplier: 1.0,
-        description: 'Unlocks automated scanning + passive science generation'
+        description: 'Unlocks automated scanning + passive protocol generation'
       },
       2: {
         automation: true,
@@ -97,7 +97,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 200, [RESOURCES.METAL]: 80, [RESOURCES.ENERGY]: 50 },
-      2: { [RESOURCES.ORE]: 2000, [RESOURCES.METAL]: 800, [RESOURCES.ENERGY]: 500, [RESOURCES.SCIENCE]: 200, [RESOURCES.FLUX_SHARD]: 150 }
+      2: { [RESOURCES.ORE]: 2000, [RESOURCES.METAL]: 800, [RESOURCES.ENERGY]: 500, [RESOURCES.PROTOCOLS]: 200, [RESOURCES.FLUX_SHARD]: 150 }
     },
     tierBenefits: {
       1: {
@@ -129,7 +129,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 75, [RESOURCES.METAL]: 20 },
-      2: { [RESOURCES.ORE]: 750, [RESOURCES.METAL]: 300, [RESOURCES.ENERGY]: 150, [RESOURCES.DATA]: 50, [RESOURCES.SCIENCE]: 75 }
+      2: { [RESOURCES.ORE]: 750, [RESOURCES.METAL]: 300, [RESOURCES.ENERGY]: 150, [RESOURCES.DATA]: 50, [RESOURCES.PROTOCOLS]: 75 }
     },
     tierBenefits: {
       1: {
@@ -161,7 +161,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 100, [RESOURCES.METAL]: 30 },
-      2: { [RESOURCES.ORE]: 1000, [RESOURCES.METAL]: 400, [RESOURCES.ENERGY]: 200, [RESOURCES.SCIENCE]: 100 }
+      2: { [RESOURCES.ORE]: 1000, [RESOURCES.METAL]: 400, [RESOURCES.ENERGY]: 200, [RESOURCES.PROTOCOLS]: 100 }
     },
     tierBenefits: {
       1: {
@@ -192,8 +192,8 @@ export const CARD_CONFIGS = {
     baseRate: 0.15,                // 0.15 flux-shard per second at Tier 1
     // Phase 3: Tier upgrades
     upgradeCosts: {
-      1: { [RESOURCES.ORE]: 250, [RESOURCES.METAL]: 100, [RESOURCES.ENERGY]: 60, [RESOURCES.DATA]: 30, [RESOURCES.SCIENCE]: 20, [RESOURCES.XENO_BLOOM]: 40 },
-      2: { [RESOURCES.ORE]: 2500, [RESOURCES.METAL]: 1000, [RESOURCES.ENERGY]: 600, [RESOURCES.DATA]: 300, [RESOURCES.SCIENCE]: 250, [RESOURCES.XENO_BLOOM]: 400, [RESOURCES.FLUX_SHARD]: 200 }
+      1: { [RESOURCES.ORE]: 250, [RESOURCES.METAL]: 100, [RESOURCES.ENERGY]: 60, [RESOURCES.DATA]: 30, [RESOURCES.PROTOCOLS]: 20, [RESOURCES.XENO_BLOOM]: 40 },
+      2: { [RESOURCES.ORE]: 2500, [RESOURCES.METAL]: 1000, [RESOURCES.ENERGY]: 600, [RESOURCES.DATA]: 300, [RESOURCES.PROTOCOLS]: 250, [RESOURCES.XENO_BLOOM]: 400, [RESOURCES.FLUX_SHARD]: 200 }
     },
     tierBenefits: {
       1: {
@@ -225,7 +225,7 @@ export const CARD_CONFIGS = {
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 180, [RESOURCES.METAL]: 60, [RESOURCES.ENERGY]: 40, [RESOURCES.XENO_BLOOM]: 30 },
-      2: { [RESOURCES.ORE]: 1800, [RESOURCES.METAL]: 700, [RESOURCES.ENERGY]: 400, [RESOURCES.SCIENCE]: 150, [RESOURCES.XENO_BLOOM]: 300, [RESOURCES.FLUX_SHARD]: 100 }
+      2: { [RESOURCES.ORE]: 1800, [RESOURCES.METAL]: 700, [RESOURCES.ENERGY]: 400, [RESOURCES.PROTOCOLS]: 150, [RESOURCES.XENO_BLOOM]: 300, [RESOURCES.FLUX_SHARD]: 100 }
     },
     tierBenefits: {
       1: {
@@ -245,19 +245,19 @@ export const CARD_CONFIGS = {
     name: 'RESEARCH STATION',
     tier: 0,
     icon: '🔬',
-    counterLabel: 'SCIENCE',
+    counterLabel: 'PROTOCOLS',
     counterValue: 0,
     button: 'RESEARCH',
-    secondaryCounters: '<span>Manual: 3 Data + 3 Energy → 1 Science</span>',
+    secondaryCounters: '<span>Manual: 3 Data + 3 Energy → 1 Protocol</span>',
     progress: 0,
     // Phase 2: Multi-input converter
     inputRequirements: { [RESOURCES.DATA]: 0.5, [RESOURCES.ENERGY]: 0.5 },  // Dual input at T1
-    outputs: [RESOURCES.SCIENCE],         // Produces science
-    baseRate: 0.2,                 // 0.2 science per second at Tier 1
-    // Phase 3: Tier upgrades (NO SCIENCE COST for T1 - bootstrapping!)
+    outputs: [RESOURCES.PROTOCOLS],       // Produces protocols
+    baseRate: 0.2,                 // 0.2 protocols per second at Tier 1
+    // Phase 3: Tier upgrades (NO PROTOCOLS COST for T1 - bootstrapping!)
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 150, [RESOURCES.METAL]: 50, [RESOURCES.ENERGY]: 30, [RESOURCES.DATA]: 20 },
-      2: { [RESOURCES.ORE]: 1500, [RESOURCES.METAL]: 600, [RESOURCES.ENERGY]: 300, [RESOURCES.DATA]: 200, [RESOURCES.SCIENCE]: 200, [RESOURCES.FLUX_SHARD]: 75 }
+      2: { [RESOURCES.ORE]: 1500, [RESOURCES.METAL]: 600, [RESOURCES.ENERGY]: 300, [RESOURCES.DATA]: 200, [RESOURCES.PROTOCOLS]: 200, [RESOURCES.FLUX_SHARD]: 75 }
     },
     tierBenefits: {
       1: {
