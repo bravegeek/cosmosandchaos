@@ -29,14 +29,14 @@ describe('Resource System', () => {
       gameState.addResourceAccurate('ore', 10);
       gameState.addResourceAccurate('energy', 20);
       gameState.addResourceAccurate('data', 30);
-      gameState.addResourceAccurate('biomass', 40);
-      gameState.addResourceAccurate('nanites', 50);
+      gameState.addResourceAccurate('xenoBloom', 40);
+      gameState.addResourceAccurate('fluxShard', 50);
 
       expect(gameState.resources.ore).toBe(10);
       expect(gameState.resources.energy).toBe(20);
       expect(gameState.resources.data).toBe(30);
-      expect(gameState.resources.biomass).toBe(40);
-      expect(gameState.resources.nanites).toBe(50);
+      expect(gameState.resources.xenoBloom).toBe(40);
+      expect(gameState.resources.fluxShard).toBe(50);
     });
 
     it('maintains accuracy for each resource type with fractional accumulation', () => {

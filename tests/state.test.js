@@ -17,7 +17,7 @@ describe('GameState - Resource Management', () => {
     expect(state.resources.ore).toBe(0)
     expect(state.resources.metal).toBe(0)
     expect(state.resources.energy).toBe(0)
-    expect(state.resources.science).toBe(0)
+    expect(state.resources.protocols).toBe(0)
   })
 
   it('should add resources correctly', () => {

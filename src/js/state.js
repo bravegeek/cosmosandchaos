@@ -28,10 +28,10 @@ class GameState {
       [RESOURCES.ORE]: 0,
       [RESOURCES.METAL]: 0,
       [RESOURCES.ENERGY]: 0,
-      [RESOURCES.SCIENCE]: 0,
-      [RESOURCES.DATA]: 0,        // Phase 2: New resource type
-      [RESOURCES.BIOMASS]: 0,     // Phase 2: New resource type
-      [RESOURCES.NANITES]: 0      // Phase 2: New resource type
+      [RESOURCES.PROTOCOLS]: 0,   // Phase 2: Renamed from SCIENCE (2026-01-03)
+      [RESOURCES.DATA]: 0,
+      [RESOURCES.XENO_BLOOM]: 0,  // Phase 2: Renamed from BIOMASS (2025-12-25)
+      [RESOURCES.FLUX_SHARD]: 0   // Phase 2: Renamed from NANITES (2026-01-02)
     };
 
     // Card state - Each card tracks its full state
@@ -139,10 +139,10 @@ class GameState {
       [RESOURCES.ORE]: 0,
       [RESOURCES.METAL]: 0,
       [RESOURCES.ENERGY]: 0,
-      [RESOURCES.SCIENCE]: 0,
+      [RESOURCES.PROTOCOLS]: 0,
       [RESOURCES.DATA]: 0,
-      [RESOURCES.BIOMASS]: 0,
-      [RESOURCES.NANITES]: 0
+      [RESOURCES.XENO_BLOOM]: 0,
+      [RESOURCES.FLUX_SHARD]: 0
     };
 
     // Card production accumulators
@@ -422,8 +422,8 @@ class GameState {
     const efficiencyObj = this.efficiencies[cardId];
 
     // Base producer check (no inputs required)
-    // Try config first, fall back to card state for tests
-    const inputRequirements = cardConfig?.inputRequirements || card.inputRequirements || {};
+    // Try card state first (for tests), fall back to config
+    const inputRequirements = card.inputRequirements || cardConfig?.inputRequirements || {};
     if (!inputRequirements || Object.keys(inputRequirements).length === 0) {
       efficiencyObj.value = 1.0;
       efficiencyObj.bottleneck = null;
@@ -753,8 +753,8 @@ class GameState {
 
       // Phase 2: Restore accumulators (backwards compatible)
       this.resourceAccumulators = data.resourceAccumulators || {
-        [RESOURCES.ORE]: 0, [RESOURCES.METAL]: 0, [RESOURCES.ENERGY]: 0, [RESOURCES.SCIENCE]: 0,
-        [RESOURCES.DATA]: 0, [RESOURCES.BIOMASS]: 0, [RESOURCES.NANITES]: 0
+        [RESOURCES.ORE]: 0, [RESOURCES.METAL]: 0, [RESOURCES.ENERGY]: 0, [RESOURCES.PROTOCOLS]: 0,
+        [RESOURCES.DATA]: 0, [RESOURCES.XENO_BLOOM]: 0, [RESOURCES.FLUX_SHARD]: 0
       };
       this.cardAccumulators = data.cardAccumulators || {
         [CARDS.EXTRACTOR]: 0, [CARDS.SENSOR]: 0, [CARDS.STORAGE]: 0, [CARDS.PROCESSOR]: 0,
