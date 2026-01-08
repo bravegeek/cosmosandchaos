@@ -136,3 +136,10 @@ To continue development:
 3. Manual testing per checklist above
 4. Commit changes with message referencing Phase 2
 5. Consider starting Phase 3 (economy/wonder/dread systems) on new branch
+
+## Active Technologies
+- JavaScript ES6+ (browser native modules) + None (vanilla JS), Vitest 1.0+ for testing (003-early-game-state)
+- LocalStorage (via existing SaveManager in `src/js/save.js`) (003-early-game-state)
+
+## Recent Changes
+- 003-early-game-state: Added JavaScript ES6+ (browser native modules) + None (vanilla JS), Vitest 1.0+ for testing
