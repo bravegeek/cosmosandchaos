@@ -20,8 +20,8 @@ console.log('🎮 State module loaded');
  */
 class GameState {
   constructor() {
-    // Schema version for save compatibility
-    this.version = 1;
+    // Schema version for save compatibility (T014: Phase 4 increments to v2)
+    this.version = 2;
 
     // Resources
     this.resources = {
@@ -45,7 +45,8 @@ class GameState {
         automated: false,
         rate: 0,
         tier: 0,
-        ioIndicators: []
+        ioIndicators: [],
+        unlocked: true  // Phase 4: Extractor starts unlocked
       },
       [CARDS.SENSOR]: {
         id: CARDS.SENSOR,
@@ -56,7 +57,8 @@ class GameState {
         automated: false,
         rate: 0,
         tier: 0,
-        ioIndicators: []
+        ioIndicators: [],
+        unlocked: false  // Phase 4: All other cards start locked
       },
       [CARDS.STORAGE]: {
         id: CARDS.STORAGE,
@@ -67,7 +69,8 @@ class GameState {
         automated: false,
         rate: 0,
         tier: 0,
-        ioIndicators: []
+        ioIndicators: [],
+        unlocked: false  // Phase 4: All other cards start locked
       },
       [CARDS.PROCESSOR]: {
         id: CARDS.PROCESSOR,
@@ -77,8 +80,9 @@ class GameState {
         production: 0,
         automated: false,
         rate: 0,
-        tier: 1,
-        ioIndicators: []
+        tier: 0,  // Phase 4: Changed from tier: 1 to tier: 0
+        ioIndicators: [],
+        unlocked: false  // Phase 4: All other cards start locked
       },
       [CARDS.REACTOR]: {
         id: CARDS.REACTOR,
@@ -89,7 +93,8 @@ class GameState {
         automated: false,
         rate: 0,
         tier: 0,
-        ioIndicators: []
+        ioIndicators: [],
+        unlocked: false  // Phase 4: All other cards start locked
       },
       [CARDS.ENGINE]: {
         id: CARDS.ENGINE,
@@ -100,7 +105,8 @@ class GameState {
         automated: false,
         rate: 0,
         tier: 0,
-        ioIndicators: []
+        ioIndicators: [],
+        unlocked: false  // Phase 4: All other cards start locked
       },
       [CARDS.HABITAT]: {
         id: CARDS.HABITAT,
@@ -111,7 +117,8 @@ class GameState {
         automated: false,
         rate: 0,
         tier: 0,
-        ioIndicators: []
+        ioIndicators: [],
+        unlocked: false  // Phase 4: All other cards start locked
       },
       [CARDS.LAB]: {
         id: CARDS.LAB,
@@ -122,7 +129,8 @@ class GameState {
         automated: false,
         rate: 0,
         tier: 0,
-        ioIndicators: []
+        ioIndicators: [],
+        unlocked: false  // Phase 4: All other cards start locked
       }
     };
 
@@ -133,6 +141,10 @@ class GameState {
     };
 
     // === PHASE 2 ADDITIONS ===
+
+    // === PHASE 4 ADDITIONS ===
+    // Resource discovery tracking - only ore visible at start (T007)
+    this.discoveredResources = new Set([RESOURCES.ORE]);
 
     // Resource accumulators for fractional tracking
     this.resourceAccumulators = {
@@ -246,8 +258,16 @@ class GameState {
       return false;
     }
 
+    // Phase 4 (T011): Track old value for discovery trigger
+    const oldValue = this.resources[type];
+
     // Mutation
     this.resources[type] += amount;
+
+    // Phase 4 (T011): Trigger discovery on 0→positive transition
+    if (oldValue === 0 && this.resources[type] > 0) {
+      this.discoverResource(type);
+    }
 
     // Emit event
     this.emit(EVENTS.RESOURCE_CHANGED, {
@@ -304,6 +324,33 @@ class GameState {
    */
   getResource(type) {
     return this.resources.hasOwnProperty(type) ? this.resources[type] : 0;
+  }
+
+  // === PHASE 4: RESOURCE DISCOVERY ===
+
+  /**
+   * Mark a resource as discovered (makes it visible in UI) - T009
+   * @param {string} resourceType - Resource to discover
+   * @returns {boolean} True if newly discovered
+   */
+  discoverResource(resourceType) {
+    if (this.discoveredResources.has(resourceType)) {
+      return false; // Already discovered
+    }
+
+    this.discoveredResources.add(resourceType);
+    this.emit(EVENTS.RESOURCE_DISCOVERED, { resourceType });
+    console.log(`🔍 Resource discovered: ${resourceType}`);
+    return true;
+  }
+
+  /**
+   * Check if a resource has been discovered - T010
+   * @param {string} resourceType - Resource to check
+   * @returns {boolean} True if discovered
+   */
+  isResourceDiscovered(resourceType) {
+    return this.discoveredResources.has(resourceType);
   }
 
   /**
@@ -725,7 +772,9 @@ class GameState {
       productionRates: JSON.parse(JSON.stringify(this.productionRates)), // Phase 2
       cards: JSON.parse(JSON.stringify(this.cards)), // Deep copy
       grid: { ...this.grid },
-      meta: { ...this.meta }
+      meta: { ...this.meta },
+      // Phase 4 (T014): Serialize discoveredResources Set to Array
+      discoveredResources: Array.from(this.discoveredResources)
     };
   }
 
@@ -748,6 +797,9 @@ class GameState {
         return false;
       }
 
+      // Phase 4 (T017): Validate and recover unlock state
+      data = this.validateAndRecoverUnlockState(data);
+
       // Restore state
       this.resources = { ...data.resources };
 
@@ -765,6 +817,11 @@ class GameState {
       this.cards = JSON.parse(JSON.stringify(data.cards));
       this.grid = { ...data.grid };
       this.meta = { ...data.meta };
+
+      // Phase 4 (T015): Deserialize discoveredResources Array to Set
+      this.discoveredResources = data.discoveredResources
+        ? new Set(data.discoveredResources)
+        : new Set([RESOURCES.ORE]); // Default for old saves
 
       // Phase 2: Recalculate efficiencies after load
       Object.keys(this.cards).forEach(cardId => {
@@ -819,7 +876,69 @@ class GameState {
    */
   migrate(data) {
     console.log(`Migrating save from v${data.version} to v${this.version}`);
-    // Future: Add migration logic for breaking changes
+
+    // Phase 4 (T016): Migrate v1 to v2
+    if (data.version === 1) {
+      console.log('Migrating v1 → v2: Adding unlock state and discovered resources');
+
+      // Add unlocked field to all cards
+      for (const cardId of Object.keys(data.cards)) {
+        if (!data.cards[cardId].hasOwnProperty('unlocked')) {
+          data.cards[cardId].unlocked = (cardId === CARDS.EXTRACTOR);
+        }
+      }
+
+      // Add discoveredResources (auto-discover any resource with value > 0)
+      if (!data.discoveredResources) {
+        data.discoveredResources = [RESOURCES.ORE]; // ORE always discovered
+        for (const [resourceType, value] of Object.entries(data.resources)) {
+          if (value > 0 && resourceType !== RESOURCES.ORE) {
+            data.discoveredResources.push(resourceType);
+          }
+        }
+      }
+
+      data.version = 2;
+    }
+
+    return data;
+  }
+
+  /**
+   * Validate and recover from corrupted unlock data (T017)
+   * @param {Object} data - Save data to validate
+   * @returns {Object} Recovered data
+   */
+  validateAndRecoverUnlockState(data) {
+    let needsRecovery = false;
+
+    // Check for impossible states
+    if (data.cards && data.cards[CARDS.EXTRACTOR]) {
+      // Extractor must always be unlocked
+      if (!data.cards[CARDS.EXTRACTOR].unlocked) {
+        console.warn('⚠️  Corrupted unlock data: Extractor not unlocked');
+        needsRecovery = true;
+      }
+
+      // Placed cards must be unlocked
+      for (const [cardId, card] of Object.entries(data.cards)) {
+        if (card.placed && !card.unlocked) {
+          console.warn(`⚠️  Corrupted unlock data: Placed card '${cardId}' is not unlocked`);
+          needsRecovery = true;
+          break;
+        }
+      }
+    }
+
+    if (needsRecovery) {
+      console.warn('🔧 Resetting unlock state to default (preserving resources and grid)');
+      // Reset only unlock state
+      for (const cardId of Object.keys(data.cards)) {
+        data.cards[cardId].unlocked = (cardId === CARDS.EXTRACTOR);
+      }
+      // Resources, grid state, tiers all preserved
+    }
+
     return data;
   }
 

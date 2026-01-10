@@ -76,7 +76,12 @@ export const EVENTS = {
   CARD_PRODUCTION: 'card:production',
   CARD_EFFICIENCY_CHANGED: 'card:efficiency:changed',
   STATE_RESTORED: 'state:restored',
-  STATE_RESET: 'state:reset'
+  STATE_RESET: 'state:reset',
+  // Phase 4: Early game events
+  RESOURCE_DISCOVERED: 'resource:discovered',
+  CARD_UNLOCKED: 'card:unlocked',
+  CLICK_RATE_LIMITED: 'click:rate_limited',
+  CARD_CLICKED: 'card:clicked'
 };
 
 // Export for debugging

@@ -266,7 +266,7 @@ describe('GameState - Serialization', () => {
 
     const json = state.toJSON()
 
-    expect(json.version).toBe(1)
+    expect(json.version).toBe(2)  // Phase 4: Updated to v2 for unlock state and discovery
     expect(json.resources.ore).toBe(50)
     expect(json.resources.metal).toBe(10)
     expect(json.cards.extractor.placed).toBe(true)

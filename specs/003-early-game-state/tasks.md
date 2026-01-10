@@ -38,12 +38,12 @@ Each phase is independently testable and delivers user value.
 
 ### Tasks
 
-- [ ] T001 Add new event constants to src/js/constants.js (RESOURCE_DISCOVERED, CARD_UNLOCKED, CLICK_RATE_LIMITED, CARD_CLICKED)
-- [ ] T002 [P] Add manual click yield configurations to src/js/cardConfigs.js for all 8 cards (consume/produce mappings)
-- [ ] T003 [P] Create error toast CSS styles in src/css/cards.css (error-toast class with positioning and animations)
-- [ ] T004 [P] Add locked card visual styles to src/css/cards.css (opacity, grayscale filter, lock icon overlay)
-- [ ] T005 [P] Add rate limit animation styles to src/css/cards.css (shake keyframes for visual feedback)
-- [ ] T006 [P] Add resource discovery animation to src/css/cards.css (fade-in keyframes for new counters)
+- [X] T001 Add new event constants to src/js/constants.js (RESOURCE_DISCOVERED, CARD_UNLOCKED, CLICK_RATE_LIMITED, CARD_CLICKED)
+- [X] T002 [P] Add manual click yield configurations to src/js/cardConfigs.js for all 8 cards (consume/produce mappings)
+- [X] T003 [P] Create error toast CSS styles in src/css/cards.css (error-toast class with positioning and animations)
+- [X] T004 [P] Add locked card visual styles to src/css/cards.css (opacity, grayscale filter, lock icon overlay)
+- [X] T005 [P] Add rate limit animation styles to src/css/cards.css (shake keyframes for visual feedback)
+- [X] T006 [P] Add resource discovery animation to src/css/cards.css (fade-in keyframes for new counters)
 
 **Acceptance**: All CSS styles and constants defined, no runtime changes yet.
 
@@ -57,18 +57,18 @@ Each phase is independently testable and delivers user value.
 
 ### Tasks
 
-- [ ] T007 Extend GameState constructor in src/js/state.js to add discoveredResources Set initialized with [RESOURCES.ORE]
-- [ ] T008 Add unlocked field to all card state objects in src/js/state.js (Extractor: true, all others: false)
-- [ ] T009 Implement GameState.discoverResource() method in src/js/state.js (add to Set, emit RESOURCE_DISCOVERED event)
-- [ ] T010 Implement GameState.isResourceDiscovered() method in src/js/state.js (check Set membership)
-- [ ] T011 Modify GameState.addResource() in src/js/state.js to trigger discovery on 0→positive transitions
-- [ ] T012 [P] Write unit tests for resource discovery in tests/discovery.test.js (initial state, 0→positive, no rediscovery)
-- [ ] T013 [P] Write unit tests for unlocked field initialization in tests/initialState.test.js (Extractor unlocked, others locked)
-- [ ] T014 Update SaveManager.save() in src/js/save.js to serialize discoveredResources Set to Array and increment version to 2
-- [ ] T015 Update SaveManager.load() in src/js/save.js to deserialize discoveredResources Array to Set
-- [ ] T016 Implement SaveManager.migrateV1toV2() in src/js/save.js (add unlocked field, auto-discover resources with value>0)
-- [ ] T017 Implement SaveManager.validateAndRecover() in src/js/save.js to detect corrupted unlock data and reset unlock state
-- [ ] T018 [P] Write unit tests for save migration in tests/save.test.js (v1→v2 migration, Set serialization, corruption recovery)
+- [X] T007 Extend GameState constructor in src/js/state.js to add discoveredResources Set initialized with [RESOURCES.ORE]
+- [X] T008 Add unlocked field to all card state objects in src/js/state.js (Extractor: true, all others: false)
+- [X] T009 Implement GameState.discoverResource() method in src/js/state.js (add to Set, emit RESOURCE_DISCOVERED event)
+- [X] T010 Implement GameState.isResourceDiscovered() method in src/js/state.js (check Set membership)
+- [X] T011 Modify GameState.addResource() in src/js/state.js to trigger discovery on 0→positive transitions
+- [X] T012 [P] Write unit tests for resource discovery in tests/discovery.test.js (initial state, 0→positive, no rediscovery)
+- [X] T013 [P] Write unit tests for unlocked field initialization in tests/initialState.test.js (Extractor unlocked, others locked)
+- [X] T014 Update SaveManager.save() in src/js/save.js to serialize discoveredResources Set to Array and increment version to 2
+- [X] T015 Update SaveManager.load() in src/js/save.js to deserialize discoveredResources Array to Set
+- [X] T016 Implement SaveManager.migrateV1toV2() in src/js/save.js (add unlocked field, auto-discover resources with value>0)
+- [X] T017 Implement SaveManager.validateAndRecover() in src/js/save.js to detect corrupted unlock data and reset unlock state
+- [X] T018 [P] Write unit tests for save migration in tests/save.test.js (v1→v2 migration, Set serialization, corruption recovery)
 
 **Acceptance**: All state extensions tested, save/load handles unlock state and discovery correctly.
 
@@ -84,11 +84,11 @@ Each phase is independently testable and delivers user value.
 
 ### Tasks
 
-- [ ] T019 [US1] Implement initializeNewGame() function in src/js/main.js to create GameState with initial unlock states
-- [ ] T020 [US1] Add programmatic card placement logic to initializeNewGame() in src/js/main.js using grid.placeCard(EXTRACTOR, 2, 2)
-- [ ] T021 [US1] Set Extractor initial state in initializeNewGame() in src/js/main.js (placed: true, row: 2, col: 2, tier: 0, automated: false)
-- [ ] T022 [P] [US1] Write unit tests for initial game state in tests/initialState.test.js (Extractor at 2,2, tier 0, other cards locked)
-- [ ] T023 [P] [US1] Write integration test in tests/initialState.test.js for new game loading (verify DOM shows Extractor, no other cards)
+- [X] T019 [US1] Implement initializeNewGame() function in src/js/main.js to create GameState with initial unlock states
+- [X] T020 [US1] Add programmatic card placement logic to initializeNewGame() in src/js/main.js using grid.placeCard(EXTRACTOR, 2, 2)
+- [X] T021 [US1] Set Extractor initial state in initializeNewGame() in src/js/main.js (placed: true, row: 2, col: 2, tier: 0, automated: false)
+- [X] T022 [P] [US1] Write unit tests for initial game state in tests/initialState.test.js (Extractor at 2,2, tier 0, other cards locked)
+- [X] T023 [P] [US1] Write integration test in tests/initialState.test.js for new game loading (verify DOM shows Extractor, no other cards)
 
 **Acceptance Criteria**:
 - [x] Extractor T0 appears at grid position (2,2) on new game
@@ -111,16 +111,16 @@ Each phase is independently testable and delivers user value.
 
 ### Tasks
 
-- [ ] T024 [US2] Create ClickHandler class in new src/js/clickHandler.js with constructor initializing lastClickTimestamps Map and CLICK_COOLDOWN_MS constant
-- [ ] T025 [US2] Implement ClickHandler.handleClick() method in src/js/clickHandler.js with rate limit check, tier 0 validation, resource validation
-- [ ] T026 [US2] Implement click resource processing in ClickHandler.handleClick() in src/js/clickHandler.js (consume inputs, produce outputs, update timestamp)
-- [ ] T027 [US2] Add ClickHandler.getRemainingCooldown() method in src/js/clickHandler.js for UI cooldown queries
-- [ ] T028 [US2] Instantiate ClickHandler in src/js/main.js and attach click event listeners to card elements
-- [ ] T029 [US2] Add rate limit visual feedback handler in src/js/main.js (listen to CLICK_RATE_LIMITED, add shake animation class)
-- [ ] T030 [P] [US2] Write unit tests for ClickHandler rate limiting in tests/clickHandler.test.js (cooldown enforcement, per-card isolation)
-- [ ] T031 [P] [US2] Write unit tests for click processing in tests/clickHandler.test.js (resource consume/produce, tier 0 restriction)
-- [ ] T032 [P] [US2] Write unit tests for manual click yields in tests/clickHandler.test.js (Extractor: 1 ore, Sensor: 5 energy → 2 data)
-- [ ] T033 [P] [US2] Write integration test in tests/clickHandler.test.js (click → resource update → display update flow)
+- [X] T024 [US2] Create ClickHandler class in new src/js/clickHandler.js with constructor initializing lastClickTimestamps Map and CLICK_COOLDOWN_MS constant
+- [X] T025 [US2] Implement ClickHandler.handleClick() method in src/js/clickHandler.js with rate limit check, tier 0 validation, resource validation
+- [X] T026 [US2] Implement click resource processing in ClickHandler.handleClick() in src/js/clickHandler.js (consume inputs, produce outputs, update timestamp)
+- [X] T027 [US2] Add ClickHandler.getRemainingCooldown() method in src/js/clickHandler.js for UI cooldown queries
+- [X] T028 [US2] Instantiate ClickHandler in src/js/main.js and attach click event listeners to card elements
+- [X] T029 [US2] Add rate limit visual feedback handler in src/js/main.js (listen to CLICK_RATE_LIMITED, add shake animation class)
+- [X] T030 [P] [US2] Write unit tests for ClickHandler rate limiting in tests/clickHandler.test.js (cooldown enforcement, per-card isolation)
+- [X] T031 [P] [US2] Write unit tests for click processing in tests/clickHandler.test.js (resource consume/produce, tier 0 restriction)
+- [X] T032 [P] [US2] Write unit tests for manual click yields in tests/clickHandler.test.js (Extractor: 1 ore, Sensor: 5 energy → 2 data)
+- [X] T033 [P] [US2] Write integration test in tests/clickHandler.test.js (click → resource update → display update flow)
 
 **Acceptance Criteria**:
 - [x] Clicking Extractor T0 adds 1 ore to resource count
@@ -146,15 +146,15 @@ Each phase is independently testable and delivers user value.
 
 ### Tasks
 
-- [ ] T034 [US3] Create UnlockManager class in new src/js/unlock.js with unlockRules configuration (sequential + milestones)
-- [ ] T035 [US3] Implement UnlockManager.setupListeners() in src/js/unlock.js to listen for CARD_UPGRADED and RESOURCE_CHANGED events
-- [ ] T036 [US3] Implement UnlockManager.checkSequentialUnlocks() in src/js/unlock.js (check tier upgrade triggers, unlock cards, emit CARD_UNLOCKED)
-- [ ] T037 [US3] Implement UnlockManager.checkMilestoneUnlocks() in src/js/unlock.js (check resource thresholds, unlock cards independently)
-- [ ] T038 [US3] Add UnlockManager.getUnlockProgress() method in src/js/unlock.js for UI progress queries
-- [ ] T039 [US3] Instantiate UnlockManager in src/js/main.js after GameState and ClickHandler initialization
-- [ ] T040 [P] [US3] Write unit tests for sequential unlocks in tests/unlock.test.js (Extractor T1 → Processor, chain progression)
-- [ ] T041 [P] [US3] Write unit tests for upgrade cost deduction in tests/unlock.test.js (50 ore → 0 ore after upgrade)
-- [ ] T042 [P] [US3] Write integration test in tests/unlock.test.js (50 ore → upgrade → automation starts → Processor unlocks)
+- [X] T034 [US3] Create UnlockManager class in new src/js/unlock.js with unlockRules configuration (sequential + milestones)
+- [X] T035 [US3] Implement UnlockManager.setupListeners() in src/js/unlock.js to listen for CARD_UPGRADED and RESOURCE_CHANGED events
+- [X] T036 [US3] Implement UnlockManager.checkSequentialUnlocks() in src/js/unlock.js (check tier upgrade triggers, unlock cards, emit CARD_UNLOCKED)
+- [X] T037 [US3] Implement UnlockManager.checkMilestoneUnlocks() in src/js/unlock.js (check resource thresholds, unlock cards independently)
+- [X] T038 [US3] Add UnlockManager.getUnlockProgress() method in src/js/unlock.js for UI progress queries
+- [X] T039 [US3] Instantiate UnlockManager in src/js/main.js after GameState and ClickHandler initialization
+- [X] T040 [P] [US3] Write unit tests for sequential unlocks in tests/unlock.test.js (Extractor T1 → Processor, chain progression)
+- [X] T041 [P] [US3] Write unit tests for upgrade cost deduction in tests/unlock.test.js (50 ore → 0 ore after upgrade)
+- [X] T042 [P] [US3] Write integration test in tests/unlock.test.js (50 ore → upgrade → automation starts → Processor unlocks)
 
 **Acceptance Criteria**:
 - [x] Upgrading with 50 ore deducts cost (0 ore remaining)
@@ -211,12 +211,12 @@ Each phase is independently testable and delivers user value.
 
 ### Tasks
 
-- [ ] T051 [US5] Modify DisplayUpdateManager.updateResourceDisplays() in src/js/display.js to filter by discovery state (hide undiscovered)
-- [ ] T052 [US5] Add DisplayUpdateManager.handleResourceDiscovery() method in src/js/display.js to show newly discovered resources with fade-in
-- [ ] T053 [US5] Add RESOURCE_DISCOVERED event listener in DisplayUpdateManager constructor in src/js/display.js
-- [ ] T054 [P] [US5] Write unit tests for display filtering in tests/discovery.test.js (undiscovered resources hidden, discovered shown)
-- [ ] T055 [P] [US5] Write integration test in tests/discovery.test.js (new game → only ore visible, produce energy → energy appears)
-- [ ] T056 [P] [US5] Write integration test in tests/discovery.test.js (save/load → discovered resources persist, remain visible)
+- [X] T051 [US5] Modify DisplayUpdateManager.updateResourceDisplays() in src/js/display.js to filter by discovery state (hide undiscovered)
+- [X] T052 [US5] Add DisplayUpdateManager.handleResourceDiscovery() method in src/js/display.js to show newly discovered resources with fade-in
+- [X] T053 [US5] Add RESOURCE_DISCOVERED event listener in DisplayUpdateManager constructor in src/js/display.js
+- [X] T054 [P] [US5] Write unit tests for display filtering in tests/discovery.test.js (undiscovered resources hidden, discovered shown)
+- [X] T055 [P] [US5] Write integration test in tests/discovery.test.js (new game → only ore visible, produce energy → energy appears)
+- [X] T056 [P] [US5] Write integration test in tests/discovery.test.js (save/load → discovered resources persist, remain visible)
 
 **Acceptance Criteria**:
 - [x] New game shows only ore in resource panel
