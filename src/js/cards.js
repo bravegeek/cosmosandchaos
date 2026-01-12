@@ -228,6 +228,15 @@ function handleDragStart(e) {
   draggedCard = e.target;
   sourceCell = draggedCard.parentElement;
 
+  // Phase 4 (T044): Prevent dragging locked cards
+  const cardId = draggedCard.dataset.cardId;
+  const card = gameState.getCard(cardId);
+  if (card && !card.unlocked) {
+    e.preventDefault();
+    addLogEntry(`Card ${cardId} is locked. Unlock it first to place on grid.`);
+    return;
+  }
+
   // Store card ID for drop handler
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/html', draggedCard.innerHTML);
