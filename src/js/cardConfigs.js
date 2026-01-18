@@ -30,6 +30,11 @@ export const CARD_CONFIGS = {
     inputRequirements: {},        // Base producer - no inputs
     outputs: [RESOURCES.ORE],             // Produces ore
     baseRate: 1.0,                 // 1 ore per second at Tier 1
+    // Phase 4: Manual click yields
+    manualClickYield: {
+      consume: {},
+      produce: { [RESOURCES.ORE]: 1 }
+    },
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 50 },              // Cost to upgrade from Tier 0 to Tier 1
@@ -63,6 +68,11 @@ export const CARD_CONFIGS = {
     outputs: [RESOURCES.DATA, RESOURCES.PROTOCOLS],   // Produces data + passive protocols
     baseRate: 0.3,                 // 0.3 data per second at Tier 1
     passiveProtocols: 0.1,         // +0.1 protocols/sec passive generation (T1+)
+    // Phase 4: Manual click yields
+    manualClickYield: {
+      consume: { [RESOURCES.ENERGY]: 5 },
+      produce: { [RESOURCES.DATA]: 2 }
+    },
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 120, [RESOURCES.METAL]: 40, [RESOURCES.ENERGY]: 25 },
@@ -94,6 +104,11 @@ export const CARD_CONFIGS = {
     inputRequirements: {},
     outputs: [],
     baseRate: 0,
+    // Phase 4: Manual click yields (passive card - no manual yield)
+    manualClickYield: {
+      consume: {},
+      produce: {}
+    },
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 200, [RESOURCES.METAL]: 80, [RESOURCES.ENERGY]: 50 },
@@ -126,6 +141,11 @@ export const CARD_CONFIGS = {
     inputRequirements: { [RESOURCES.ORE]: 1.0 },  // Consumes 1.0 ore/sec at T1
     outputs: [RESOURCES.METAL],            // Produces metal
     baseRate: 0.4,                  // 0.4 metal per second at Tier 1
+    // Phase 4: Manual click yields
+    manualClickYield: {
+      consume: { [RESOURCES.ORE]: 5 },
+      produce: { [RESOURCES.METAL]: 2 }
+    },
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 75, [RESOURCES.METAL]: 20 },
@@ -158,6 +178,11 @@ export const CARD_CONFIGS = {
     inputRequirements: { [RESOURCES.ORE]: 0.5 },  // Burns 0.5 ore/sec as fuel at T1
     outputs: [RESOURCES.ENERGY],          // Produces energy
     baseRate: 0.8,                 // 0.8 energy per second at Tier 1
+    // Phase 4: Manual click yields
+    manualClickYield: {
+      consume: { [RESOURCES.ORE]: 2 },
+      produce: { [RESOURCES.ENERGY]: 5 }
+    },
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 100, [RESOURCES.METAL]: 30 },
@@ -190,6 +215,11 @@ export const CARD_CONFIGS = {
     inputRequirements: { [RESOURCES.METAL]: 0.5, [RESOURCES.ENERGY]: 0.3 },  // Dual input at T1
     outputs: [RESOURCES.FLUX_SHARD],
     baseRate: 0.15,                // 0.15 flux-shard per second at Tier 1
+    // Phase 4: Manual click yields
+    manualClickYield: {
+      consume: { [RESOURCES.METAL]: 3, [RESOURCES.ENERGY]: 2 },
+      produce: { [RESOURCES.FLUX_SHARD]: 1 }
+    },
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 250, [RESOURCES.METAL]: 100, [RESOURCES.ENERGY]: 60, [RESOURCES.DATA]: 30, [RESOURCES.PROTOCOLS]: 20, [RESOURCES.XENO_BLOOM]: 40 },
@@ -222,6 +252,11 @@ export const CARD_CONFIGS = {
     inputRequirements: { [RESOURCES.ENERGY]: 1.0 },  // Consumes energy at T1
     outputs: [RESOURCES.XENO_BLOOM],      // Produces xeno-bloom (exotic organic matter)
     baseRate: 0.3,                 // 0.3 xeno-bloom per second at Tier 1
+    // Phase 4: Manual click yields
+    manualClickYield: {
+      consume: { [RESOURCES.ENERGY]: 5 },
+      produce: { [RESOURCES.XENO_BLOOM]: 2 }
+    },
     // Phase 3: Tier upgrades
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 180, [RESOURCES.METAL]: 60, [RESOURCES.ENERGY]: 40, [RESOURCES.XENO_BLOOM]: 30 },
@@ -254,6 +289,11 @@ export const CARD_CONFIGS = {
     inputRequirements: { [RESOURCES.DATA]: 0.5, [RESOURCES.ENERGY]: 0.5 },  // Dual input at T1
     outputs: [RESOURCES.PROTOCOLS],       // Produces protocols
     baseRate: 0.2,                 // 0.2 protocols per second at Tier 1
+    // Phase 4: Manual click yields
+    manualClickYield: {
+      consume: { [RESOURCES.DATA]: 3, [RESOURCES.ENERGY]: 3 },
+      produce: { [RESOURCES.PROTOCOLS]: 1 }
+    },
     // Phase 3: Tier upgrades (NO PROTOCOLS COST for T1 - bootstrapping!)
     upgradeCosts: {
       1: { [RESOURCES.ORE]: 150, [RESOURCES.METAL]: 50, [RESOURCES.ENERGY]: 30, [RESOURCES.DATA]: 20 },

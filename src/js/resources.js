@@ -126,22 +126,24 @@ export function isResourceDiscovered(resourceType) {
 }
 
 // Expose functions globally for console testing
-window.addResource = addResource;
-window.subtractResource = subtractResource;
-window.getResource = getResource;
-window.isResourceDiscovered = isResourceDiscovered;  // Phase 3 - needed by display.js
+if (typeof window !== 'undefined') {
+  window.addResource = addResource;
+  window.subtractResource = subtractResource;
+  window.getResource = getResource;
+  window.isResourceDiscovered = isResourceDiscovered;  // Phase 3 - needed by display.js
 
-// Test function for console testing
-// Usage in browser console: testResources()
-window.testResources = function() {
-  console.log('🧪 Testing resource system...');
-  console.log('Adding 100 ore...');
-  addResource(RESOURCES.ORE, 100);
-  console.log('Adding 50 metal...');
-  addResource(RESOURCES.METAL, 50);
-  console.log('Adding 75 energy...');
-  addResource(RESOURCES.ENERGY, 75);
-  console.log('Adding 25 science...');
-  addResource(RESOURCES.SCIENCE, 25);
-  console.log('✓ Test complete! Check the Data Stack sidebar.');
-};
+  // Test function for console testing
+  // Usage in browser console: testResources()
+  window.testResources = function() {
+    console.log('🧪 Testing resource system...');
+    console.log('Adding 100 ore...');
+    addResource(RESOURCES.ORE, 100);
+    console.log('Adding 50 metal...');
+    addResource(RESOURCES.METAL, 50);
+    console.log('Adding 75 energy...');
+    addResource(RESOURCES.ENERGY, 75);
+    console.log('Adding 25 science...');
+    addResource(RESOURCES.SCIENCE, 25);
+    console.log('✓ Test complete! Check the Data Stack sidebar.');
+  };
+}

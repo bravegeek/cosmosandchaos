@@ -216,7 +216,7 @@ describe('SaveManager - Save Metadata', () => {
     const info = saveManager.getSaveInfo()
 
     expect(info).toBeTruthy()
-    expect(info.version).toBe(1)
+    expect(info.version).toBe(2)  // Phase 4: Updated to v2 for unlock state and discovery
     expect(info.timestamp).toBeTruthy()
     expect(info.resources.ore).toBe(500)
   })

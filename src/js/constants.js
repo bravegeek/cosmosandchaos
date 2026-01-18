@@ -3,7 +3,14 @@
  * Central registry for all game enums and magic values
  */
 
-console.log('📋 Constants module loaded');
+/**
+ * Debug Mode
+ * Set to true to enable verbose logging (performance impact)
+ * Should be false for production
+ */
+export const DEBUG = false;
+
+if (DEBUG) console.log('📋 Constants module loaded');
 
 /**
  * Resource Types
@@ -76,7 +83,12 @@ export const EVENTS = {
   CARD_PRODUCTION: 'card:production',
   CARD_EFFICIENCY_CHANGED: 'card:efficiency:changed',
   STATE_RESTORED: 'state:restored',
-  STATE_RESET: 'state:reset'
+  STATE_RESET: 'state:reset',
+  // Phase 4: Early game events
+  RESOURCE_DISCOVERED: 'resource:discovered',
+  CARD_UNLOCKED: 'card:unlocked',
+  CLICK_RATE_LIMITED: 'click:rate_limited',
+  CARD_CLICKED: 'card:clicked'
 };
 
 // Export for debugging

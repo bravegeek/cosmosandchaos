@@ -463,3 +463,121 @@
 .card-status:hover .efficiency-tooltip {
   opacity: 1;
 }
+
+/* ============================================
+   PHASE 4: EARLY GAME STATE
+   ============================================ */
+
+/* T003: Error Toast Styles */
+.error-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dread-accent, #ff4444);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  z-index: 10000;
+  animation: fadeInUp 0.3s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* T004: Locked Card Visual Styles */
+.card.locked {
+  opacity: 0.5;
+  filter: grayscale(100%);
+  cursor: not-allowed;
+  position: relative;
+}
+
+.card.locked::after {
+  content: '🔒';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* T005: Rate Limit Animation Styles */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+.card.rate-limited {
+  animation: shake 0.3s ease-in-out;
+  border-color: var(--dread-accent, #ff4444);
+}
+
+/* T006: Resource Discovery Animation */
+@keyframes fadeInResource {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.resource-item.resource-discovered {
+  animation: fadeInResource 0.5s ease-out;
+}
+
+/* Phase 4: Card Inventory */
+.card-inventory {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  min-height: 100px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.card-inventory .card {
+  transform: scale(0.6);
+  transform-origin: top left;
+  margin-bottom: -80px; /* Compensate for scale */
+}
+
+/* Phase 4: Hide action buttons in inventory - cards must be placed on grid first */
+.card-inventory .card .card-button {
+  display: none;
+}
+
+.card-inventory .card .card-upgrade-btn {
+  display: none;
+}
+
+.card-inventory .card.locked {
+  display: none; /* Hide locked cards completely */
+}

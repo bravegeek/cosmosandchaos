@@ -73,7 +73,28 @@ export function addLogEntry(message) {
   }
 }
 
+// Phase 4 (T045): Show error toast notification
+export function showErrorToast(message, duration = 3000) {
+  // Remove any existing toast
+  const existingToast = document.querySelector('.error-toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  // Create new toast
+  const toast = document.createElement('div');
+  toast.className = 'error-toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  // Auto-remove after duration
+  setTimeout(() => {
+    toast.remove();
+  }, duration);
+}
+
 // Expose globally for console testing (browser only)
 if (typeof window !== 'undefined') {
   window.addLogEntry = addLogEntry;
+  window.showErrorToast = showErrorToast;
 }

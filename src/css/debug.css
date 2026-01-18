@@ -1,0 +1,241 @@
+/* Debug Panel Styles */
+
+.debug-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 320px;
+  background: var(--bg-card);
+  border: 2px solid var(--wonder-accent);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+  z-index: 9999;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.debug-panel.hidden {
+  display: none;
+}
+
+/* Header */
+.debug-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background: rgba(0, 217, 255, 0.1);
+  border-bottom: 1px solid var(--wonder-accent);
+  border-radius: 6px 6px 0 0;
+}
+
+.debug-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--wonder-accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.debug-indicator {
+  font-size: 10px;
+  padding: 2px 8px;
+  background: var(--dread-accent);
+  color: #fff;
+  border-radius: 4px;
+  animation: debug-pulse 2s infinite;
+}
+
+@keyframes debug-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.debug-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 5px;
+  transition: color 0.2s;
+}
+
+.debug-close:hover {
+  color: var(--dread-accent);
+}
+
+/* Body */
+.debug-body {
+  padding: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.debug-section {
+  margin-bottom: 15px;
+}
+
+.debug-section:last-child {
+  margin-bottom: 0;
+}
+
+.debug-section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-neutral);
+}
+
+/* Amount inputs */
+.debug-amount-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.debug-amount-row label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.debug-amount-row input {
+  width: 80px;
+  padding: 4px 8px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border-neutral);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-align: right;
+}
+
+.debug-amount-row input:focus {
+  outline: none;
+  border-color: var(--wonder-accent);
+}
+
+/* Resource rows */
+.debug-resources {
+  margin-top: 10px;
+}
+
+.debug-resource-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(102, 102, 102, 0.3);
+}
+
+.debug-resource-row:last-child {
+  border-bottom: none;
+}
+
+.debug-resource-name {
+  font-size: 12px;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.debug-resource-value {
+  font-size: 12px;
+  color: var(--wonder-accent);
+  min-width: 60px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.debug-resource-btns {
+  display: flex;
+  gap: 4px;
+}
+
+/* Buttons */
+.debug-btn {
+  padding: 6px 12px;
+  background: var(--bg-dark);
+  border: 1px solid var(--wonder-accent);
+  border-radius: 4px;
+  color: var(--wonder-accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.debug-btn:hover {
+  background: var(--wonder-accent);
+  color: var(--bg-dark);
+}
+
+.debug-btn:active {
+  transform: scale(0.95);
+}
+
+.debug-btn-sm {
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+/* Actions grid */
+.debug-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+/* Footer */
+.debug-footer {
+  padding: 8px 15px;
+  background: rgba(0, 217, 255, 0.05);
+  border-top: 1px solid var(--border-neutral);
+  border-radius: 0 0 6px 6px;
+}
+
+.debug-hint {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* Debug mode active indicator */
+body.debug-mode-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--dread-accent), var(--wonder-accent));
+  z-index: 10000;
+  animation: debug-bar-pulse 2s infinite;
+}
+
+@keyframes debug-bar-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Scrollbar styling */
+.debug-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.debug-body::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+.debug-body::-webkit-scrollbar-thumb {
+  background: var(--border-neutral);
+  border-radius: 3px;
+}
+
+.debug-body::-webkit-scrollbar-thumb:hover {
+  background: var(--wonder-accent);
+}

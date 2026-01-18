@@ -106,6 +106,14 @@ export function createCard(config) {
   card.dataset.cardId = config.id;
   card.dataset.tier = config.tier || 0;
 
+  // Phase 4 (T043): Check unlock state and apply locked class
+  if (window.gameState) {
+    const cardState = window.gameState.getCard(config.id);
+    if (cardState && !cardState.unlocked) {
+      card.classList.add('locked');
+    }
+  }
+
   // Make card draggable
   card.draggable = true;
 
@@ -162,15 +170,34 @@ export function createCard(config) {
     ${ioIndicatorsHTML}
   `;
 
-  // Add click event listener to button if present
+  // Phase 4: Button-based clicking using ClickHandler
   if (config.button) {
     const button = card.querySelector('.card-button');
     if (button) {
-      console.log(`✓ Adding click handler to ${config.name} button`);
       button.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent card drag when clicking button
-        console.log(`🖱️ Button clicked: ${config.name}`);
-        handleCardClick(config.id, config.button.toLowerCase());
+
+        // Use ClickHandler if available (Phase 4)
+        if (window.clickHandler) {
+          const result = window.clickHandler.handleClick(config.id);
+
+          if (result.success) {
+            // Visual feedback for successful click
+            card.classList.add('flash-success');
+            setTimeout(() => {
+              card.classList.remove('flash-success');
+            }, 200);
+          } else if (result.reason === 'insufficient_resources') {
+            // Show error feedback
+            card.classList.add('flash-error');
+            setTimeout(() => {
+              card.classList.remove('flash-error');
+            }, 200);
+          }
+        } else {
+          // Fallback to old system (should not happen in Phase 4)
+          handleCardClick(config.id, config.button.toLowerCase());
+        }
       });
     } else {
       console.warn(`⚠️ Button not found for ${config.name}`);
@@ -182,7 +209,6 @@ export function createCard(config) {
   if (upgradeBtn) {
     upgradeBtn.addEventListener('click', (e) => {
       e.stopPropagation(); // Prevent card drag when clicking button
-      console.log(`🔼 Upgrade button clicked: ${config.name}`);
       // This will be implemented in T013
       if (window.openUpgradeModal) {
         window.openUpgradeModal(config.id);
@@ -206,6 +232,15 @@ let sourceCell = null;
 function handleDragStart(e) {
   draggedCard = e.target;
   sourceCell = draggedCard.parentElement;
+
+  // Phase 4 (T044): Prevent dragging locked cards
+  const cardId = draggedCard.dataset.cardId;
+  const card = gameState.getCard(cardId);
+  if (card && !card.unlocked) {
+    e.preventDefault();
+    addLogEntry(`Card ${cardId} is locked. Unlock it first to place on grid.`);
+    return;
+  }
 
   // Store card ID for drop handler
   e.dataTransfer.effectAllowed = 'move';
@@ -314,7 +349,7 @@ export function updateIOIndicators(cardId) {
 export function initCards() {
   console.log('🃏 Initializing card system...');
 
-  // Create all 8 core cards
+  // Create all 8 core cards (Phase 4: cards exist but aren't placed until unlocked)
   cards[CARDS.EXTRACTOR] = createCard(CARD_CONFIGS[CARDS.EXTRACTOR]);
   cards[CARDS.SENSOR] = createCard(CARD_CONFIGS[CARDS.SENSOR]);
   cards[CARDS.STORAGE] = createCard(CARD_CONFIGS[CARDS.STORAGE]);
@@ -324,33 +359,29 @@ export function initCards() {
   cards[CARDS.HABITAT] = createCard(CARD_CONFIGS[CARDS.HABITAT]);
   cards[CARDS.LAB] = createCard(CARD_CONFIGS[CARDS.LAB]);
 
-  // Place cards on grid in starting layout (2 rows of 4)
-  const layout = [
-    { card: cards[CARDS.EXTRACTOR], row: 0, col: 0 },
-    { card: cards[CARDS.SENSOR], row: 0, col: 1 },
-    { card: cards[CARDS.STORAGE], row: 0, col: 2 },
-    { card: cards[CARDS.PROCESSOR], row: 0, col: 3 },
-    { card: cards[CARDS.REACTOR], row: 1, col: 0 },
-    { card: cards[CARDS.ENGINE], row: 1, col: 1 },
-    { card: cards[CARDS.HABITAT], row: 1, col: 2 },
-    { card: cards[CARDS.LAB], row: 1, col: 3 }
-  ];
+  // Phase 4: Place cards in inventory (they'll be shown/hidden based on unlock state)
+  const inventory = document.getElementById('card-inventory');
+  if (inventory) {
+    Object.values(cards).forEach(card => {
+      if (card) {
+        inventory.appendChild(card);
+      }
+    });
+  }
 
-  let placedCount = 0;
-  layout.forEach(({ card, row, col }) => {
-    if (placeCard(card, row, col)) {
-      placedCount++;
-    }
-  });
+  // Phase 4: The Extractor will be moved to grid by initializeNewGame() in main.js
+  // Other cards will be dragged by the player after unlocking
 
-  console.log(`✓ ${placedCount}/8 cards placed on grid`);
+  console.log('✓ 8 card elements created in inventory');
 
   return cards;
 }
 
 // Expose for debugging and backwards compatibility
-window.cards = cards;
-window.handleCardClick = handleCardClick;
-window.CARD_CONFIGS = CARD_CONFIGS;  // Backwards compatibility - prefer importing from cardConfigs.js
+if (typeof window !== 'undefined') {
+  window.cards = cards;
+  window.handleCardClick = handleCardClick;
+  window.CARD_CONFIGS = CARD_CONFIGS;  // Backwards compatibility - prefer importing from cardConfigs.js
+}
 
 export { cards, CARD_CONFIGS };

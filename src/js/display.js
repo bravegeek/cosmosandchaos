@@ -1,14 +1,15 @@
 /**
  * Display System (Phase 2 - User Story 2)
+ * Phase 4: Resource Discovery
  * Manages visual updates including Status LEDs and throttled counters
  */
 
-import { EVENTS, UPDATE_RATES, LED_STATUS } from './constants.js';
+import { EVENTS, UPDATE_RATES, LED_STATUS, DEBUG } from './constants.js';
 import { CARD_CONFIGS } from './cardConfigs.js';
 import { gameState } from './state.js';
 import { formatNumber } from './utils.js';
 
-console.log('🖥️ Display module loaded');
+if (DEBUG) console.log('🖥️ Display module loaded');
 
 export class DisplayUpdateManager {
   constructor() {
@@ -34,6 +35,8 @@ export class DisplayUpdateManager {
     this.handleEfficiencyChange = this.handleEfficiencyChange.bind(this);
     this.handleResourceChange = this.handleResourceChange.bind(this);
     this.handleCardProduced = this.handleCardProduced.bind(this);  // Phase 3 - T008
+    this.handleResourceDiscovery = this.handleResourceDiscovery.bind(this);  // Phase 4 - T053
+    this.handleCardUnlock = this.handleCardUnlock.bind(this); // Phase 6 - T046
   }
 
   /**
@@ -50,6 +53,8 @@ export class DisplayUpdateManager {
     gameState.on(EVENTS.CARD_EFFICIENCY_CHANGED, this.handleEfficiencyChange);
     gameState.on(EVENTS.RESOURCE_CHANGED, this.handleResourceChange);
     gameState.on(EVENTS.CARD_PRODUCED, this.handleCardProduced);  // Phase 3 - T008
+    gameState.on(EVENTS.RESOURCE_DISCOVERED, this.handleResourceDiscovery);  // Phase 4 - T053
+    gameState.on(EVENTS.CARD_UNLOCKED, this.handleCardUnlock); // Phase 6 - T046
 
     // Initial resource display update
     this.updateResourceDisplay();
@@ -71,6 +76,8 @@ export class DisplayUpdateManager {
     gameState.off(EVENTS.CARD_EFFICIENCY_CHANGED, this.handleEfficiencyChange);
     gameState.off(EVENTS.RESOURCE_CHANGED, this.handleResourceChange);
     gameState.off(EVENTS.CARD_PRODUCED, this.handleCardProduced);  // Phase 3 - T008
+    gameState.off(EVENTS.RESOURCE_DISCOVERED, this.handleResourceDiscovery);  // Phase 4 - T053
+    gameState.off(EVENTS.CARD_UNLOCKED, this.handleCardUnlock); // Phase 6 - T046
 
     console.log('✓ Display loop stopped');
   }
@@ -184,11 +191,29 @@ export class DisplayUpdateManager {
    * Update global resource display panel (T064)
    * Updates all resource values in the UI with formatted numbers
    */
+  /**
+   * Update resource displays (Phase 4 T051: Filter by discovery state)
+   */
   updateResourceDisplay() {
     const resourceElements = document.querySelectorAll('.resource-value[data-resource]');
 
     resourceElements.forEach(element => {
       const resourceType = element.dataset.resource;
+
+      // Phase 4 (T051): Hide undiscovered resources
+      const container = element.parentElement;
+      if (!gameState.isResourceDiscovered(resourceType)) {
+        if (container) {
+          container.style.display = 'none';
+        }
+        return;
+      }
+
+      // Show discovered resources
+      if (container && container.style.display === 'none') {
+        container.style.display = 'flex';
+      }
+
       const value = gameState.getTrueResourceValue(resourceType);
 
       // Apply formatNumber for large values (T069)
@@ -229,6 +254,67 @@ export class DisplayUpdateManager {
     // Update card counter to show current resource amount, not production count
     const currentAmount = gameState.getResource(data.resourceType);
     this.updateCardCounter(data.cardId, currentAmount);
+  }
+
+  /**
+   * Event Handler: Resource Discovered (Phase 4 - T052, US5)
+   * Shows newly discovered resource with fade-in animation
+   * @param {Object} data { resourceType }
+   */
+  handleResourceDiscovery(data) {
+    const resourceType = data.resourceType;
+    const element = document.querySelector(`.resource-value[data-resource="${resourceType}"]`);
+
+    if (!element) {
+      console.warn(`Resource element not found for ${resourceType}`);
+      return;
+    }
+
+    const container = element.parentElement;
+    if (!container) return;
+
+    // Show the container
+    container.style.display = 'flex';
+
+    // Add discovery animation class
+    container.classList.add('resource-discovered');
+
+    // Remove animation class after animation completes
+    setTimeout(() => {
+      container.classList.remove('resource-discovered');
+    }, 500);
+
+    // Update the display to show current value
+    this.updateResourceDisplay();
+
+    if (DEBUG) console.log(`🔍 Resource UI updated: ${resourceType} now visible`);
+  }
+
+  /**
+   * Event Handler: Card Unlocked (Phase 6 - T046, US4)
+   * Updates UI to show card is now available
+   * @param {Object} data { cardId }
+   */
+  handleCardUnlock(data) {
+    const cardId = data.cardId;
+    
+    // Find card in inventory or grid
+    const cardElement = document.querySelector(`.card[data-card-id="${cardId}"]`);
+    
+    if (cardElement) {
+      // Remove locked class
+      cardElement.classList.remove('locked');
+      
+      // Add unlock animation
+      cardElement.classList.add('unlock-animation');
+      setTimeout(() => {
+        cardElement.classList.remove('unlock-animation');
+      }, 1000);
+      
+      if (DEBUG) console.log(`🔓 Card UI updated: ${cardId} unlocked`);
+    } else {
+      console.warn(`Card element not found for unlock: ${cardId}`);
+    }
   }
 
   /**

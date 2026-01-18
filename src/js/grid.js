@@ -6,6 +6,7 @@
 
 import { gameState } from './state.js';
 import { updateIOIndicators } from './cards.js';
+import { addLogEntry, showErrorToast } from './utils.js';
 
 console.log('📐 Grid module loaded');
 
@@ -39,7 +40,25 @@ function handleDragOver(e) {
   const cell = e.currentTarget;
   const isEmpty = cell.dataset.occupied === 'false';
 
-  if (isEmpty) {
+  // Phase 4 (T044): Check if dragged card is locked
+  const draggedCard = document.querySelector('.dragging');
+  const cardId = draggedCard?.dataset.cardId;
+  const card = cardId ? gameState.getCard(cardId) : null;
+  const isLocked = card && !card.unlocked;
+
+  // Phase 4 (T045): Check if grid is full when placing from inventory
+  let isGridFull = false;
+  if (draggedCard) {
+    const sourceCell = draggedCard.parentElement;
+    const isFromInventory = !sourceCell?.classList.contains('grid-cell');
+    if (isFromInventory) {
+      const totalCells = gridState.rows * gridState.cols;
+      const occupiedCount = Object.values(gameState.cards).filter(c => c.placed).length;
+      isGridFull = occupiedCount >= totalCells;
+    }
+  }
+
+  if (isEmpty && !isLocked && !isGridFull) {
     cell.classList.add('drop-target');
     cell.classList.remove('drop-invalid');
     e.dataTransfer.dropEffect = 'move';
@@ -73,8 +92,29 @@ function handleDrop(e) {
   const sourceCell = draggedCard.parentElement;
   const cardId = draggedCard.dataset.cardId;
 
-  // Store old position for updating neighbors
+  // Phase 4 (T044): Prevent placing locked cards
   const card = gameState.getCard(cardId);
+  if (card && !card.unlocked) {
+    console.warn(`Cannot place locked card: ${cardId}`);
+    addLogEntry(`Cannot place locked card: ${cardId}`);
+    return;
+  }
+
+  // Phase 4 (T045): Check if grid is full (only for new placements, not moves)
+  const isMovingFromGrid = sourceCell && sourceCell.classList.contains('grid-cell');
+  if (!isMovingFromGrid) {
+    // Card is being placed from inventory - check if grid has space
+    const totalCells = gridState.rows * gridState.cols;
+    const occupiedCount = Object.values(gameState.cards).filter(c => c.placed).length;
+
+    if (occupiedCount >= totalCells) {
+      console.warn('Grid is full');
+      showErrorToast('Grid is full. Remove a card first to place this one.');
+      return;
+    }
+  }
+
+  // Store old position for updating neighbors
   const oldRow = card ? card.row : null;
   const oldCol = card ? card.col : null;
 
@@ -123,7 +163,7 @@ function handleDrop(e) {
   }
 
   // Log the move
-  if (window.addLogEntry) {
+  if (typeof window !== 'undefined' && window.addLogEntry) {
     window.addLogEntry(`Moved ${cardId} to [${row},${col}]`);
   }
 
