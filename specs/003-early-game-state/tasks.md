@@ -178,14 +178,14 @@ Each phase is independently testable and delivers user value.
 
 ### Tasks
 
-- [ ] T043 [US4] Update card rendering in src/js/cards.js to check unlocked field and apply locked CSS class (opacity, grayscale, lock icon)
-- [ ] T044 [US4] Add grid placement validation in src/js/grid.js to prevent placing locked cards (check unlocked before placeCard)
-- [ ] T045 [US4] Implement grid full error handling in src/js/grid.js (show error toast for 3 seconds when grid capacity reached)
-- [ ] T046 [US4] Add CARD_UNLOCKED event listener in src/js/display.js to update card selection area when cards unlock
-- [ ] T047 [P] [US4] Write unit tests for milestone unlocks in tests/unlock.test.js (Data 50 → Lab, Energy 100 → Habitat, out-of-order unlocks)
-- [ ] T048 [US4] Write unit tests for locked card placement prevention in tests/unlock.test.js (attempt place locked card → error)
-- [ ] T049 [P] [US4] Write integration test in tests/unlock.test.js (full unlock chain: Extractor→Processor→Reactor→Sensor sequential)
-- [ ] T050 [P] [US4] Write integration test in tests/unlock.test.js (milestone independence: unlock Storage at 200 ore before Lab at 50 data)
+- [X] T043 [US4] Update card rendering in src/js/cards.js to check unlocked field and apply locked CSS class (opacity, grayscale, lock icon)
+- [X] T044 [US4] Add grid placement validation in src/js/grid.js to prevent placing locked cards (check unlocked before placeCard)
+- [X] T045 [US4] Implement grid full error handling in src/js/grid.js (show error toast for 3 seconds when grid capacity reached)
+- [X] T046 [US4] Add CARD_UNLOCKED event listener in src/js/display.js to update card selection area when cards unlock
+- [X] T047 [P] [US4] Write unit tests for milestone unlocks in tests/unlock.test.js (Data 50 → Lab, Energy 100 → Habitat, out-of-order unlocks)
+- [X] T048 [US4] Write unit tests for locked card placement prevention in tests/unlock.test.js (attempt place locked card → error)
+- [X] T049 [P] [US4] Write integration test in tests/unlock.test.js (full unlock chain: Extractor→Processor→Reactor→Sensor sequential)
+- [X] T050 [P] [US4] Write integration test in tests/unlock.test.js (milestone independence: unlock Storage at 200 ore before Lab at 50 data)
 
 **Acceptance Criteria**:
 - [x] 7 cards (Sensor, Storage, Processor, Reactor, Engine, Habitat, Lab) appear locked at game start
@@ -236,18 +236,18 @@ Each phase is independently testable and delivers user value.
 
 ### Edge Cases
 
-- [ ] T057 [P] Write test for minimum cost upgrade in tests/unlock.test.js (exactly 50 ore → 0 remaining per clarification #3)
-- [ ] T058 [P] Write test for rapid clicking in tests/clickHandler.test.js (20 clicks → only ~10 succeed, visual feedback shown)
-- [ ] T059 [P] Write test for grid full scenario in tests/grid.test.js (20 cards placed → attempt 21st → error message)
-- [ ] T060 [P] Write test for out-of-order milestones in tests/unlock.test.js (energy 100 before data 50 → both unlock independently)
-- [ ] T061 [P] Write test for save/load unlock state in tests/save.test.js (save with 3 unlocked → load → 3 still unlocked)
-- [ ] T062 [P] Write test for corrupted data recovery in tests/save.test.js (invalid unlock state → reset to Extractor only, preserve resources)
+- [X] T057 [P] Write test for minimum cost upgrade in tests/unlock.test.js (exactly 50 ore → 0 remaining per clarification #3)
+- [X] T058 [P] Write test for rapid clicking in tests/clickHandler.test.js (20 clicks → only ~10 succeed, visual feedback shown)
+- [X] T059 [P] Write test for grid full scenario in tests/grid.test.js (20 cards placed → attempt 21st → error message)
+- [X] T060 [P] Write test for out-of-order milestones in tests/unlock.test.js (energy 100 before data 50 → both unlock independently)
+- [X] T061 [P] Write test for save/load unlock state in tests/save.test.js (save with 3 unlocked → load → 3 still unlocked)
+- [X] T062 [P] Write test for corrupted data recovery in tests/save.test.js (invalid unlock state → reset to Extractor only, preserve resources)
 
 ### Integration & Cross-Cutting
 
-- [ ] T063 Verify all event listeners properly attached in src/js/main.js (CARD_UPGRADED, RESOURCE_CHANGED, RESOURCE_DISCOVERED, etc.)
-- [ ] T064 Test full game flow integration (new game → click 50 times → upgrade → unlock Processor → place Processor → automation)
-- [ ] T065 [P] Run full test suite and verify >70% coverage maintained (npm run coverage)
+- [X] T063 Verify all event listeners properly attached in src/js/main.js (CARD_UPGRADED, RESOURCE_CHANGED, RESOURCE_DISCOVERED, etc.)
+- [X] T064 Test full game flow integration (new game → click 50 times → upgrade → unlock Processor → place Processor → automation)
+- [X] T065 [P] Run full test suite and verify >70% coverage maintained (npm run coverage)
 - [ ] T066 Manual browser testing per quickstart.md integration checklist (new game, first unlock, resource discovery, save/load)
 
 ### Performance Validation

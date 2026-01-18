@@ -36,6 +36,7 @@ export class DisplayUpdateManager {
     this.handleResourceChange = this.handleResourceChange.bind(this);
     this.handleCardProduced = this.handleCardProduced.bind(this);  // Phase 3 - T008
     this.handleResourceDiscovery = this.handleResourceDiscovery.bind(this);  // Phase 4 - T053
+    this.handleCardUnlock = this.handleCardUnlock.bind(this); // Phase 6 - T046
   }
 
   /**
@@ -53,6 +54,7 @@ export class DisplayUpdateManager {
     gameState.on(EVENTS.RESOURCE_CHANGED, this.handleResourceChange);
     gameState.on(EVENTS.CARD_PRODUCED, this.handleCardProduced);  // Phase 3 - T008
     gameState.on(EVENTS.RESOURCE_DISCOVERED, this.handleResourceDiscovery);  // Phase 4 - T053
+    gameState.on(EVENTS.CARD_UNLOCKED, this.handleCardUnlock); // Phase 6 - T046
 
     // Initial resource display update
     this.updateResourceDisplay();
@@ -75,6 +77,7 @@ export class DisplayUpdateManager {
     gameState.off(EVENTS.RESOURCE_CHANGED, this.handleResourceChange);
     gameState.off(EVENTS.CARD_PRODUCED, this.handleCardProduced);  // Phase 3 - T008
     gameState.off(EVENTS.RESOURCE_DISCOVERED, this.handleResourceDiscovery);  // Phase 4 - T053
+    gameState.off(EVENTS.CARD_UNLOCKED, this.handleCardUnlock); // Phase 6 - T046
 
     console.log('✓ Display loop stopped');
   }
@@ -285,6 +288,33 @@ export class DisplayUpdateManager {
     this.updateResourceDisplay();
 
     if (DEBUG) console.log(`🔍 Resource UI updated: ${resourceType} now visible`);
+  }
+
+  /**
+   * Event Handler: Card Unlocked (Phase 6 - T046, US4)
+   * Updates UI to show card is now available
+   * @param {Object} data { cardId }
+   */
+  handleCardUnlock(data) {
+    const cardId = data.cardId;
+    
+    // Find card in inventory or grid
+    const cardElement = document.querySelector(`.card[data-card-id="${cardId}"]`);
+    
+    if (cardElement) {
+      // Remove locked class
+      cardElement.classList.remove('locked');
+      
+      // Add unlock animation
+      cardElement.classList.add('unlock-animation');
+      setTimeout(() => {
+        cardElement.classList.remove('unlock-animation');
+      }, 1000);
+      
+      if (DEBUG) console.log(`🔓 Card UI updated: ${cardId} unlocked`);
+    } else {
+      console.warn(`Card element not found for unlock: ${cardId}`);
+    }
   }
 
   /**

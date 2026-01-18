@@ -163,7 +163,7 @@ function handleDrop(e) {
   }
 
   // Log the move
-  if (window.addLogEntry) {
+  if (typeof window !== 'undefined' && window.addLogEntry) {
     window.addLogEntry(`Moved ${cardId} to [${row},${col}]`);
   }
 

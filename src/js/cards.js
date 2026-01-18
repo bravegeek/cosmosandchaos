@@ -106,6 +106,14 @@ export function createCard(config) {
   card.dataset.cardId = config.id;
   card.dataset.tier = config.tier || 0;
 
+  // Phase 4 (T043): Check unlock state and apply locked class
+  if (window.gameState) {
+    const cardState = window.gameState.getCard(config.id);
+    if (cardState && !cardState.unlocked) {
+      card.classList.add('locked');
+    }
+  }
+
   // Make card draggable
   card.draggable = true;
 
@@ -370,8 +378,10 @@ export function initCards() {
 }
 
 // Expose for debugging and backwards compatibility
-window.cards = cards;
-window.handleCardClick = handleCardClick;
-window.CARD_CONFIGS = CARD_CONFIGS;  // Backwards compatibility - prefer importing from cardConfigs.js
+if (typeof window !== 'undefined') {
+  window.cards = cards;
+  window.handleCardClick = handleCardClick;
+  window.CARD_CONFIGS = CARD_CONFIGS;  // Backwards compatibility - prefer importing from cardConfigs.js
+}
 
 export { cards, CARD_CONFIGS };
