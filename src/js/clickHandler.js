@@ -46,9 +46,6 @@ export class ClickHandler {
     if (!card.placed) {
       return { success: false, reason: 'not_placed' };
     }
-    if (card.tier !== 0) {
-      return { success: false, reason: 'tier_too_high' };
-    }
 
     // Get manual click yield
     const config = CARD_CONFIGS[cardId];
