@@ -15,6 +15,7 @@ import { initModal } from './modal.js'; // Phase 3
 import { ClickHandler } from './clickHandler.js'; // Phase 4
 import { UnlockManager } from './unlock.js'; // Phase 4
 import { CARDS, EVENTS } from './constants.js'; // Phase 4
+import { debugPanel } from './debug.js'; // Debug panel
 
 console.log('🚀 Cosmos and Chaos - Initializing...');
 
@@ -246,6 +247,9 @@ function init() {
 
   // Step 10: Initialize modal system (Phase 3)
   initModal();
+
+  // Step 11: Initialize debug panel (Ctrl+Shift+D to toggle)
+  debugPanel.init();
 
   // Mark as initialized
   gameState.meta.initialized = true;

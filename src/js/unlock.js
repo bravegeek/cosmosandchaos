@@ -4,9 +4,9 @@
  * Manages hybrid unlock system (sequential + milestone)
  */
 
-import { CARDS, RESOURCES, EVENTS } from './constants.js';
+import { CARDS, RESOURCES, EVENTS, DEBUG } from './constants.js';
 
-console.log('🔓 UnlockManager module loaded');
+if (DEBUG) console.log('🔓 UnlockManager module loaded');
 
 /**
  * UnlockManager - Manages card unlock progression
@@ -89,7 +89,7 @@ export class UnlockManager {
             trigger: rule.trigger
           });
           unlocked.push(rule.card);
-          console.log(`🔓 Sequential unlock: ${rule.card} (${cardId} → T${tier})`);
+          if (DEBUG) console.log(`🔓 Sequential unlock: ${rule.card} (${cardId} → T${tier})`);
         }
       }
     }
@@ -116,7 +116,7 @@ export class UnlockManager {
             trigger: rule.trigger
           });
           unlocked.push(rule.card);
-          console.log(`🔓 Milestone unlock: ${rule.card} (${resourceType} ≥ ${rule.trigger.threshold})`);
+          if (DEBUG) console.log(`🔓 Milestone unlock: ${rule.card} (${resourceType} ≥ ${rule.trigger.threshold})`);
         }
       }
     }

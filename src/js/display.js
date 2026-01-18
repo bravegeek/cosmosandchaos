@@ -4,12 +4,12 @@
  * Manages visual updates including Status LEDs and throttled counters
  */
 
-import { EVENTS, UPDATE_RATES, LED_STATUS } from './constants.js';
+import { EVENTS, UPDATE_RATES, LED_STATUS, DEBUG } from './constants.js';
 import { CARD_CONFIGS } from './cardConfigs.js';
 import { gameState } from './state.js';
 import { formatNumber } from './utils.js';
 
-console.log('🖥️ Display module loaded');
+if (DEBUG) console.log('🖥️ Display module loaded');
 
 export class DisplayUpdateManager {
   constructor() {
@@ -284,7 +284,7 @@ export class DisplayUpdateManager {
     // Update the display to show current value
     this.updateResourceDisplay();
 
-    console.log(`🔍 Resource UI updated: ${resourceType} now visible`);
+    if (DEBUG) console.log(`🔍 Resource UI updated: ${resourceType} now visible`);
   }
 
   /**

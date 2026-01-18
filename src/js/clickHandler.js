@@ -4,10 +4,10 @@
  * Handles manual clicks on Tier 0 cards with rate limiting
  */
 
-import { RESOURCES, CARDS, EVENTS } from './constants.js';
+import { RESOURCES, CARDS, EVENTS, DEBUG } from './constants.js';
 import { CARD_CONFIGS } from './cardConfigs.js';
 
-console.log('🖱️  ClickHandler module loaded');
+if (DEBUG) console.log('🖱️  ClickHandler module loaded');
 
 /**
  * ClickHandler - Manages manual clicks on Tier 0 cards

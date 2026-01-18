@@ -3,13 +3,13 @@
  * Single source of truth for all game data with event-driven architecture
  */
 
-import { RESOURCES, CARDS, EVENTS, LED_STATUS, EFFICIENCY_THRESHOLDS } from './constants.js';
+import { RESOURCES, CARDS, EVENTS, LED_STATUS, EFFICIENCY_THRESHOLDS, DEBUG } from './constants.js';
 import { CARD_CONFIGS as IMPORTED_CARD_CONFIGS } from './cardConfigs.js';
 
 // Helper to get CARD_CONFIGS (supports test mocking via window.CARD_CONFIGS)
 const getCardConfigs = () => (typeof window !== 'undefined' && window.CARD_CONFIGS) || IMPORTED_CARD_CONFIGS;
 
-console.log('🎮 State module loaded');
+if (DEBUG) console.log('🎮 State module loaded');
 
 /**
  * GameState - Centralized store for all game data
@@ -276,7 +276,6 @@ class GameState {
       total: this.resources[type]
     });
 
-    console.log(`+${amount} ${type} (Total: ${this.resources[type]})`);
     return true;
   }
 
@@ -313,7 +312,6 @@ class GameState {
       total: this.resources[type]
     });
 
-    console.log(`-${amount} ${type} (Total: ${this.resources[type]})`);
     return true;
   }
 

@@ -3,7 +3,14 @@
  * Central registry for all game enums and magic values
  */
 
-console.log('📋 Constants module loaded');
+/**
+ * Debug Mode
+ * Set to true to enable verbose logging (performance impact)
+ * Should be false for production
+ */
+export const DEBUG = false;
+
+if (DEBUG) console.log('📋 Constants module loaded');
 
 /**
  * Resource Types

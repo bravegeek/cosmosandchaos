@@ -166,10 +166,8 @@ export function createCard(config) {
   if (config.button) {
     const button = card.querySelector('.card-button');
     if (button) {
-      console.log(`✓ Adding click handler to ${config.name} button`);
       button.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent card drag when clicking button
-        console.log(`🖱️ Button clicked: ${config.name}`);
 
         // Use ClickHandler if available (Phase 4)
         if (window.clickHandler) {
@@ -203,7 +201,6 @@ export function createCard(config) {
   if (upgradeBtn) {
     upgradeBtn.addEventListener('click', (e) => {
       e.stopPropagation(); // Prevent card drag when clicking button
-      console.log(`🔼 Upgrade button clicked: ${config.name}`);
       // This will be implemented in T013
       if (window.openUpgradeModal) {
         window.openUpgradeModal(config.id);
